@@ -18,9 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".IncomeDetailActivity">
+        <activity
+            android:name=".IncomeDetailActivity"
+            android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".SpendDetailActivity">
+        <activity
+            android:name=".SpendDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

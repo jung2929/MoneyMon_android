@@ -4,16 +4,16 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/buttonPanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/buttonPanel">
+        android:layout_centerInParent="true">
 
         <Button
+            android:id="@+id/income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/income_button"
-            android:id="@+id/income"/>
+            android:background="@drawable/income_button" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,11 +24,11 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonPanel"
         android:layout_centerInParent="true"
-        android:text="@string/total_Price"
-        android:id="@+id/total_price"/>
+        android:text="@string/total_Price" />
 
 </RelativeLayout>

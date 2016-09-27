@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FragmentTest</string>
     <string name="action_settings">Settings</string>
@@ -6,4 +7,19 @@
     <string name="second_section_title">지출 내역</string>
     <string name="third_section_title">패턴 분석</string>
     <string name="total_Price">총 잔액 : 0</string>
+    <string name="income_date">수입 일자 :</string>
+    <string name="income_price">수입 금액 :</string>
+    <string name="income_contents">수입 내역 :</string>
+    <string name="income_category">카테고리 :</string>
+    <string name="income_remark">메모 :</string>
+    <string name="remark_hint">사용한 내역을 적어주세요.</string>
+    <string name="date_hint">날짜를 선택해주세요.</string>
+    <string name="price_hint">가격을 입력해주세요.</string>
+    <string name="content_hint">내용을 간단히 적어주세요.</string>
+    <string name="okay">확인</string>
+    <string name="cancel">취소</string>
+    <string-array name="income_category_contents">
+        <item >주수입</item>
+        <item >부수입</item>
+    </string-array>
 </resources>
