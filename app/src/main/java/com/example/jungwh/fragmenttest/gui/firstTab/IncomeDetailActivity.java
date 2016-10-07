@@ -1,8 +1,11 @@
-package com.example.jungwh.fragmenttest;
+package com.example.jungwh.fragmenttest.gui.firstTab;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,11 +13,13 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.jungwh.fragmenttest.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -91,17 +96,37 @@ public class IncomeDetailActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int pos, long id) {
-
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
             }
 
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-
-
             }
         });
+
+        (findViewById(R.id.income_okay)).setOnClickListener(mOnClickListener);
+        (findViewById(R.id.income_cancel)).setOnClickListener(mOnClickListener);
+    }
+
+    Button.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.income_okay :
+                    saveData();
+                    break;
+                case R.id.income_cancel :
+                    setResult(RESULT_OK, null);
+                    finish();
+                    break;
+            }
+
+        }
+    };
+
+    public void saveData(){
+
     }
 
     @Override

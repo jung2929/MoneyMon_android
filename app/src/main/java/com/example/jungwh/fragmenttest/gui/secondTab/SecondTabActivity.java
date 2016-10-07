@@ -1,4 +1,4 @@
-package com.example.jungwh.fragmenttest.Tab;
+package com.example.jungwh.fragmenttest.gui.secondTab;
 
 import android.annotation.SuppressLint;
 

@@ -1,5 +1,6 @@
-package com.example.jungwh.fragmenttest;
+package com.example.jungwh.fragmenttest.gui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.example.jungwh.fragmenttest.Tab.FirstTabActivity;
-import com.example.jungwh.fragmenttest.Tab.SecondTabActivity;
-import com.example.jungwh.fragmenttest.Tab.ThirdTabActivity;
+import com.example.jungwh.fragmenttest.R;
+import com.example.jungwh.fragmenttest.business.logic.LoginService;
+import com.example.jungwh.fragmenttest.gui.firstTab.FirstTabActivity;
+import com.example.jungwh.fragmenttest.gui.secondTab.SecondTabActivity;
+import com.example.jungwh.fragmenttest.gui.ThirdTab.ThirdTabActivity;
+
 
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -28,6 +35,29 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout: {
+                LoginService loginService = new LoginService();
+                loginService.logout(getApplicationContext());
+                finish();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                break;
+            }
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

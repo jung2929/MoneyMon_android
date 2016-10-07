@@ -1,4 +1,4 @@
-package com.example.jungwh.fragmenttest.Tab;
+package com.example.jungwh.fragmenttest.gui.firstTab;
 
 import android.annotation.SuppressLint;
 
@@ -12,9 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jungwh.fragmenttest.IncomeDetailActivity;
 import com.example.jungwh.fragmenttest.R;
-import com.example.jungwh.fragmenttest.SpendDetailActivity;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,7 +29,6 @@ public class FirstTabActivity extends Fragment {
         View FirstTabView = layoutInflater.inflate(R.layout.fragment_first_tab, viewGroup, false);
 
         FirstTabView.findViewById(R.id.income).setOnClickListener(mOnClickLister);
-        FirstTabView.findViewById(R.id.spend).setOnClickListener(mOnClickLister);
         return FirstTabView;
     }
 
@@ -41,9 +38,6 @@ public class FirstTabActivity extends Fragment {
             switch (v.getId()){
                 case R.id.income:
                     startActivityForResult(new Intent(getActivity(), IncomeDetailActivity.class),0);
-                    break;
-                case R.id.spend:
-                    startActivityForResult(new Intent(getActivity(), SpendDetailActivity.class),0);
                     break;
             }
         }

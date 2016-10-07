@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/White"
+    tools:context="com.example.jungwh.fragmenttest.gui.main.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_login_rl_login_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/activity_login_pb_login_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_login_ll_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/money_mon_logo_text"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/money_mon_logo"/>
+
+        <EditText
+            android:id="@+id/user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/bg_edittext_rounded"
+            android:digits="abcdefghijklmnopqrstuvwxyz0123456789"
+            android:drawableLeft="@drawable/ic_user"
+            android:hint="@string/login_hint_user_id"
+            android:inputType="text"
+            android:padding="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/user_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_edittext_rounded"
+            android:drawableLeft="@drawable/ic_password"
+            android:hint="@string/login_hint_user_password"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:maxLines="1"/>
+
+        <Button
+            android:id="@+id/login"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_login"
+            android:padding="10dp"
+            android:text="@string/login_btn_login"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/register"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_button_login"
+            android:padding="10dp"
+            android:text="@string/login_btn_register"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</RelativeLayout>

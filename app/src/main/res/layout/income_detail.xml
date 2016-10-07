@@ -2,13 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/White">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
 
         <TableRow
             android:layout_width="match_parent"
@@ -17,14 +20,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="@string/income_date" />
             <EditText
                 android:id="@+id/income_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
-                android:textColorHint="@color/White"
+                android:background="@drawable/bg_edittext_rounded"
+                android:drawableLeft="@drawable/iconmonstr_calendar"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/Black"
                 android:gravity="center"
                 android:focusable="false"
                 android:hint="@string/date_hint" />
@@ -36,15 +42,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="@string/income_price" />
             <EditText
                 android:id="@+id/income_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
-                android:textColorHint="@color/White"
-                android:gravity="right"
+                android:background="@drawable/bg_edittext_rounded"
+                android:drawableLeft="@drawable/iconmonstr_currency"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/Black"
+                android:gravity="right|center"
+                android:nextFocusDown="@+id/income_contents"
                 android:maxLength="11"
                 android:inputType="number"
                 android:hint="@string/price_hint" />
@@ -56,14 +66,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="@string/income_contents" />
             <EditText
+                android:id="@+id/income_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
-                android:textColorHint="@color/White"
-                android:maxLines="2"
+                android:background="@drawable/bg_edittext_rounded"
+                android:drawableLeft="@drawable/iconmonstr_note"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/Black"
+                android:maxLines="1"
                 android:maxLength="20"
                 android:hint="@string/content_hint" />
         </TableRow>
@@ -74,12 +88,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="@string/income_category" />
             <Spinner
                 android:id="@+id/income_category_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:spinnerMode="dropdown"
                 android:entries="@array/income_category_contents">
             </Spinner>
         </TableRow>
@@ -90,29 +107,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="@string/income_remark" />
             <EditText
+                android:id="@+id/income_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/White"
-                android:textColorHint="@color/White"
+                android:background="@drawable/bg_edittext_rounded"
+                android:drawableLeft="@drawable/iconmonstr_note"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/Black"
                 android:maxLines="2"
-                android:maxLength="50"
+                android:maxLength="20"
                 android:hint="@string/remark_hint" />
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:padding="10dp">
             <Button
+                android:id="@+id/income_okay"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginRight="50dp"
                 android:text="@string/okay"/>
             <Button
+                android:id="@+id/income_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="50dp"
                 android:text="@string/cancel"/>
         </TableRow>
     </LinearLayout>

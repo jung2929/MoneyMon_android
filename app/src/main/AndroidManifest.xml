@@ -2,29 +2,48 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jungwh.fragmenttest">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:label="@string/app_name"
+        android:versionCode="@string/app_version_code"
+        android:versionName="@string/app_version_name">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.jungwh.fragmenttest.gui.main.SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".IncomeDetailActivity"
-            android:theme="@style/AppTheme">
+            android:name=".gui.main.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity
-            android:name=".SpendDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".gui.main.RegisterActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity
+            android:name=".gui.main.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".gui.firstTab.IncomeDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
     </application>
 
