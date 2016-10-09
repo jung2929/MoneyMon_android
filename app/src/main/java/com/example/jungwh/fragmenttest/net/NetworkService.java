@@ -51,11 +51,8 @@ public class NetworkService {
                 .build();
         try {
             response = client.newCall(request).execute();
-
-            String jsonData = response.body().string();
-            JSONArray Jarray = new JSONArray(jsonData);
             return response.isSuccessful();
-        } catch (JSONException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return response.isSuccessful();
         }

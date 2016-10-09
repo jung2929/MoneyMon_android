@@ -3,10 +3,10 @@ package com.example.jungwh.fragmenttest.net.dal;
 import com.example.jungwh.fragmenttest.net.NetworkService;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -29,13 +29,14 @@ public class RegisterDAL {
                 .addPathSegment("register")
                 .build();
 
-        RequestBody requestBody = new FormBody.Builder()
-                .add("USER_ID", userId)
-                .add("USER_PASSWORD", userPassword)
-                .add("USER_NM", userNm)
-                .add("MOBLPHON", moblphon)
-                .add("EMAIL", email)
-                .build();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("USER_ID", userId);
+        jsonObject.put("USER_PASSWORD", userPassword);
+        jsonObject.put("USER_NM", userNm);
+        jsonObject.put("MOBLPHON", moblphon);
+        jsonObject.put("EMAIL", email);
+
+        RequestBody requestBody = RequestBody.create(mediaType, jsonObject.toString());
 
         return networkService.doPostRequest(url, requestBody);
     }

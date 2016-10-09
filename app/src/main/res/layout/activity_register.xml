@@ -47,11 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/bg_edittext_rounded"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:drawableLeft="@drawable/ic_user"
             android:nextFocusDown="@+id/user_password"
-            android:hint="@string/login_hint_user_id"
+            android:hint="@string/register_hint_user_id"
             android:inputType="text"
             android:padding="10dp"
             android:maxLines="1"/>
@@ -64,8 +65,51 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/bg_edittext_rounded"
             android:drawableLeft="@drawable/ic_password"
-            android:hint="@string/login_hint_user_password"
+            android:nextFocusDown="@+id/user_nm"
+            android:hint="@string/register_hint_user_password"
             android:inputType="textPassword"
+            android:padding="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/user_nm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_edittext_rounded"
+            android:drawableLeft="@drawable/iconmonstr_note"
+            android:nextFocusDown="@+id/moblphon"
+            android:hint="@string/register_hint_user_nm"
+            android:inputType="text"
+            android:padding="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/moblphon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_edittext_rounded"
+            android:drawableLeft="@drawable/iconmonstr_note"
+            android:nextFocusDown="@+id/user_password"
+            android:hint="@string/register_hint_moblphon"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/bg_edittext_rounded"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:drawableLeft="@drawable/iconmonstr_note"
+            android:hint="@string/register_hint_email"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:maxLines="1"/>
 

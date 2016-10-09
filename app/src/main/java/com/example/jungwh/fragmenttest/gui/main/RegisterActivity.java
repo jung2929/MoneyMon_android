@@ -31,7 +31,7 @@ import java.io.IOException;
  */
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText etUserId, etUserPassword;
+    private EditText etUserId, etUserPassword, etUserNm, etMoblphon, etEmail;
     private View progressView, registerFormView;
     private RegisterTask authTask = null;
 
@@ -45,6 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         etUserId = (EditText) findViewById(R.id.user_id);
         etUserPassword = (EditText) findViewById(R.id.user_password);
+        etUserNm = (EditText) findViewById(R.id.user_nm);
+        etMoblphon = (EditText) findViewById(R.id.moblphon);
+        etEmail = (EditText) findViewById(R.id.email);
 
         registerFormView = findViewById(R.id.activity_register_ll_register_form);
         progressView = findViewById(R.id.activity_register_pb_register_progress);
@@ -72,6 +75,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         String userId = etUserId.getText().toString();
         String userPassword = etUserPassword.getText().toString();
+        String userNm = etUserNm.getText().toString();
+        String moblphon = etMoblphon.getText().toString();
+        String email = etEmail.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -88,12 +94,24 @@ public class RegisterActivity extends AppCompatActivity {
             etUserPassword.setError("비밀번호는 4자리 보다 더 길어야 합니다");
             focusView = etUserPassword;
             cancel = true;
+        }else if (TextUtils.isEmpty(userNm)) {
+            etUserNm.setError("닉네임을 입력해 주십시오");
+            focusView = etUserNm;
+            cancel = true;
+        }else if (TextUtils.isEmpty(moblphon)) {
+            etMoblphon.setError("핸드폰번호를 입력해 주십시오");
+            focusView = etMoblphon;
+            cancel = true;
+        }else if (TextUtils.isEmpty(email)) {
+            etEmail.setError("이메일을 입력해 주십시오");
+            focusView = etEmail;
+            cancel = true;
         }
 
         if (cancel) {
             focusView.requestFocus();
         } else {
-            authTask = new RegisterTask(getApplicationContext(), userId, userPassword);
+            authTask = new RegisterTask(getApplicationContext(), userId, userPassword, userNm, moblphon, email);
             authTask.execute((Void) null);
         }
     }
@@ -160,14 +178,21 @@ public class RegisterActivity extends AppCompatActivity {
         private final Context context;
         private final String userId;
         private final String password;
+        private final String userNm;
+        private final String moblphon;
+        private final String email;
         private RegisterService registerService = new RegisterService();
         private String registerErrMsg;
 
-        RegisterTask(Context context, String userId, String password) {
-            registerErrMsg = "사용자 ID 혹은 비밀번호가 잘못되었습니다.";
+        RegisterTask(Context context, String userId, String password, String userNm, String moblphon, String email) {
+            // 추후에 서버 validation추가해서 response로 errmsg넘겨주고 포커싱이랑, 포커싱에 해당하는 메시지붙이는작업해야함.
+            registerErrMsg = "가입에 실패하셨습니다.";
             this.context = context;
             this.userId = userId;
             this.password = password;
+            this.userNm = userNm;
+            this.moblphon = moblphon;
+            this.email = email;
         }
 
         @Override
@@ -179,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return registerService.register(userId, password, "woohyun", "010-1234-5678", "test@test.com");
+                return registerService.register(userId, password, userNm, moblphon, email);
             } catch (JSONException | IOException e) {
                 registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
                 return false;
@@ -193,8 +218,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (success) {
                 finish();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
             } else {
                 etUserPassword.setError(registerErrMsg);
                 etUserPassword.requestFocus();

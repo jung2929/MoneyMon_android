@@ -26,8 +26,8 @@ public class LoginDAL {
                 .host("10.0.2.2")
                 .port(9000)
                 .addPathSegment("login")
-                .addQueryParameter("requestUserId", userId)
-                .addQueryParameter("requestUserPassword", userPassword)
+                .addEncodedQueryParameter("requestUserId", userId)
+                .addEncodedQueryParameter("requestUserPassword", userPassword)
                 .build();
 
         return new LoginDTO(networkService.doGetRequest(url));
