@@ -18,6 +18,9 @@
     <string name="register_hint_email">이메일을 입력해주세요.</string>
     <string name="login_btn_register">가입하기</string>
 
+    <!-- 공통 -->
+    <string name="help">도움말</string>
+
     <!-- 내부 화면 -->
     <string name="first_section_title">입력</string>
     <string name="second_section_title">지출 내역</string>

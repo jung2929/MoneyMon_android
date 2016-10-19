@@ -26,10 +26,10 @@ public class FirstTabActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View FirstTabView = layoutInflater.inflate(R.layout.fragment_first_tab, viewGroup, false);
+        View firstTabView = layoutInflater.inflate(R.layout.fragment_first_tab, viewGroup, false);
 
-        FirstTabView.findViewById(R.id.income).setOnClickListener(mOnClickLister);
-        return FirstTabView;
+        firstTabView.findViewById(R.id.income).setOnClickListener(mOnClickLister);
+        return firstTabView;
     }
 
     Button.OnClickListener mOnClickLister = new View.OnClickListener() {
