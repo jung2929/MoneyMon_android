@@ -8,6 +8,7 @@ import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by jungwh on 2016-10-19.
@@ -16,9 +17,10 @@ import java.util.Arrays;
 public class ListRetrieveData implements Parcelable {
     private boolean isThereData;
     private String errMsg;
-    private ArrayList<ListRetrieveDetailData> childList;
+    private static Map<String, ArrayList<ListRetrieveDetailData>> map;
 
-    public ListRetrieveData(ListRetrieveDTO DTO, ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas) {
+
+    public ListRetrieveData(ListRetrieveDTO DTO, Map<String, ArrayList<ListRetrieveDetailData>> listRetrieveDetailDatas) {
         if (TextUtils.equals(DTO.getErrMsg(), "") & listRetrieveDetailDatas.size() > 0) {
             setThereData(true);
             setErrMsg(DTO.getErrMsg());
@@ -29,17 +31,12 @@ public class ListRetrieveData implements Parcelable {
             setThereData(false);
             setErrMsg(DTO.getErrMsg());
         }
-        setChildList(listRetrieveDetailDatas);
+        setMap(listRetrieveDetailDatas);
     }
 
     protected ListRetrieveData(Parcel in) {
         isThereData = in.readByte() != 0;
         errMsg = in.readString();
-        Parcelable[] parcelableArray = in.readParcelableArray(ListRetrieveDetailData.class.getClassLoader());
-        if (parcelableArray != null) {
-            ListRetrieveDetailData[] orderDetailArr = Arrays.copyOf(parcelableArray, parcelableArray.length, ListRetrieveDetailData[].class);
-            childList = new ArrayList<ListRetrieveDetailData>(Arrays.asList(orderDetailArr));
-        }
     }
 
     public static final Creator<ListRetrieveData> CREATOR = new Creator<ListRetrieveData>() {
@@ -54,6 +51,14 @@ public class ListRetrieveData implements Parcelable {
         }
     };
 
+    public static void setMap(Map<String, ArrayList<ListRetrieveDetailData>> map) {
+        ListRetrieveData.map = map;
+    }
+
+    public static Map<String, ArrayList<ListRetrieveDetailData>> getMap() {
+        return map;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -63,9 +68,6 @@ public class ListRetrieveData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (isThereData ? 1 : 0));
         dest.writeString(errMsg);
-
-        ListRetrieveDetailData[] orderDetailArr = new ListRetrieveDetailData[childList.size()];
-        dest.writeParcelableArray(orderDetailArr, Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
     }
 
     public String getErrMsg() {
@@ -82,13 +84,5 @@ public class ListRetrieveData implements Parcelable {
 
     public void setThereData(boolean thereData) {
         isThereData = thereData;
-    }
-
-    public ArrayList<ListRetrieveDetailData> getChildList() {
-        return childList;
-    }
-
-    public void setChildList(ArrayList<ListRetrieveDetailData> childList) {
-        this.childList = childList;
     }
 }

@@ -8,11 +8,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.example.jungwh.fragmenttest.R;
-import com.example.jungwh.fragmenttest.business.data.ListRetrieveData;
 import com.example.jungwh.fragmenttest.business.data.ListRetrieveDetailData;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
  * Created by jungwh on 2016-10-19.
@@ -20,21 +19,26 @@ import java.util.List;
 
 public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     private Context _context;
-    private ArrayList<ListRetrieveDetailData> _listRetrieveDetailDatas;
+    private LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> _listRetrieveDetailDatasMap;
 
-    public BaseExpandableAdapter(Context context, ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas){
+    /*public BaseExpandableAdapter(Context context, ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas){
         _context = context;
         _listRetrieveDetailDatas = listRetrieveDetailDatas;
+    }*/
+    public BaseExpandableAdapter(Context context, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> listRetrieveDetailDatasMap){
+        _context = context;
+        _listRetrieveDetailDatasMap = listRetrieveDetailDatasMap;
     }
 
     @Override
     public Object getGroup(int groupPosition){
-        return _listRetrieveDetailDatas.get(groupPosition);
+        //return _listRetrieveDetailDatasMap.get(groupPosition);
+        return _listRetrieveDetailDatasMap.keySet().toArray()[groupPosition];
     }
 
     @Override
     public int getGroupCount(){
-        return _listRetrieveDetailDatas.size();
+        return _listRetrieveDetailDatasMap.size();
     }
 
     @Override
@@ -44,7 +48,8 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent){
-        final ListRetrieveDetailData listRetrieveDetailData = (ListRetrieveDetailData) getGroup(groupPosition);
+        //final ListRetrieveDetailData listRetrieveDetailData = (ListRetrieveDetailData) getGroup(groupPosition);
+        final String inputDate = (String) getGroup(groupPosition);
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,20 +60,20 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         //convertView.setBackgroundResource(groupPosition % 2 == 1 ? R.drawable.bg_lv_row_colored : R.drawable.bg_lv_row_white);
 
         TextView tv_group = (TextView) convertView.findViewById(R.id.tv_group);
-        tv_group.setText(listRetrieveDetailData.getInputDate());
+        tv_group.setText(inputDate);
 
         return convertView;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition){
-        return _listRetrieveDetailDatas.get(groupPosition);
+        return _listRetrieveDetailDatasMap.values().toArray()[groupPosition];
     }
 
     @Override
     public int getChildrenCount(int groupPosition){
-        //return childList.get(groupPosition).size();
-        return 1;
+        ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas = (ArrayList<ListRetrieveDetailData>) _listRetrieveDetailDatasMap.values().toArray()[groupPosition];
+        return listRetrieveDetailDatas.size();
     }
 
     @Override
@@ -78,7 +83,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent){
-        final ListRetrieveDetailData listRetrieveDetailData = (ListRetrieveDetailData) getGroup(groupPosition);
+        final ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas = (ArrayList<ListRetrieveDetailData>) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,7 +96,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
             convertView.setBackgroundColor(parent.getResources().getColor(R.color.lv_alternating_row_light));*/
 
         TextView tv_child = (TextView) convertView.findViewById(R.id.tv_child);
-        tv_child.setText(listRetrieveDetailData.getInputMemo());
+        tv_child.setText(listRetrieveDetailDatas.get(childPosition).getInputMemo());
 
         /*TextView tvInternationalCode = (TextView) convertView.findViewById(R.id.row_order_detail_tv_international_code);
         tvInternationalCode.setText(orderDetails.getInternationalCode());

@@ -19,14 +19,17 @@ import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.ListRetrieveData;
+import com.example.jungwh.fragmenttest.business.data.ListRetrieveDetailData;
 import com.example.jungwh.fragmenttest.business.logic.ListRetrieveService;
 import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
+import com.example.jungwh.fragmenttest.util.Tuple;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
  * Created by jungwh on 2016-09-26.
@@ -36,7 +39,8 @@ import java.util.ArrayList;
 public class SecondTabActivity extends Fragment {
     private ListRetrieveTask authTask = null;
     private View progressView, formView;
-    private ListRetrieveData listRetrieveData;
+    //private ListRetrieveData listRetrieveData;
+    private Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult;
     private ArrayList<String> mGroupList = null;
     private ArrayList<ArrayList<String>> mChildList = null;
     private ArrayList<String> mChildListContent = null;
@@ -64,12 +68,12 @@ public class SecondTabActivity extends Fragment {
         authTask.execute((Void) null);
     }
 
-    private void retrieve(ListRetrieveData listRetrieveData){
+    private void retrieve(LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> mapResult){
 
-        if (listRetrieveData == null)
-            return;
+        if (mapResult == null) return;
+
         ExpandableListAdapter expandableListAdapter = new BaseExpandableAdapter(getActivity(),
-                listRetrieveData.getChildList());
+                mapResult);
         mListView.setAdapter(expandableListAdapter);
 
         //DecimalFormat decimalFormat = new DecimalFormat("#,###");
@@ -186,8 +190,8 @@ public class SecondTabActivity extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                listRetrieveData = listRetrieveService.listRetrieve(inputDateFrom, inputDateTo, userId);
-                return listRetrieveData.isThereData();
+                tupleResult = listRetrieveService.listRetrieve(inputDateFrom, inputDateTo, userId);
+                return tupleResult.getX().isThereData();
             } catch (JSONException | IOException e) {
                 listRetrieveErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
                 return false;
@@ -200,9 +204,9 @@ public class SecondTabActivity extends Fragment {
             showProgress(false);
 
             if (success) {
-                retrieve(listRetrieveData);
+                retrieve(tupleResult.getY());
             } else {
-                listRetrieveErrMsg = listRetrieveData.getErrMsg();
+                listRetrieveErrMsg = tupleResult.getX().getErrMsg();
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
                 alertDialogWrapper.showAlertDialog(getActivity(), getString(R.string.help), listRetrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
             }

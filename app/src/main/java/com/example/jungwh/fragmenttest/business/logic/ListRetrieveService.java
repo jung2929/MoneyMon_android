@@ -5,6 +5,7 @@ import com.example.jungwh.fragmenttest.business.data.ListRetrieveDetailData;
 import com.example.jungwh.fragmenttest.net.dal.ListRetrieveDAL;
 import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDTO;
 import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDetailDTO;
+import com.example.jungwh.fragmenttest.util.Tuple;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by jungwh on 2016-10-19.
@@ -21,7 +24,7 @@ public class ListRetrieveService {
     private ListRetrieveDAL DAL;
     public ListRetrieveService() { DAL = new ListRetrieveDAL(); }
 
-    public ListRetrieveData listRetrieve(String inputDateFrom, String inputDateTo, String id)
+    public Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> listRetrieve(String inputDateFrom, String inputDateTo, String id)
             throws IOException, JSONException {
         ListRetrieveDTO DTO = DAL.listRetrieve(inputDateFrom, inputDateTo, id);
         ArrayList<ListRetrieveDetailDTO> listRetrieveDetailDTOs = new ArrayList<>();
@@ -39,10 +42,29 @@ public class ListRetrieveService {
             listRetrieveDetailDTOs.add(listRetrieveDetailDTO);
         }
 
-        for (ListRetrieveDetailDTO listRetrieveDetailDTO : listRetrieveDetailDTOs) {
-            listRetrieveDetailDatas.add(new ListRetrieveDetailData(listRetrieveDetailDTO));
+        /*Map<String, ArrayList<ListRetrieveDetailDTO>> detailDTOMap =  new HashMap<>();
+        for (ListRetrieveDetailDTO detailDTO : listRetrieveDetailDTOs) {
+            String key = detailDTO.getInputDate();
+            if (detailDTOMap.get(key) == null) {
+                detailDTOMap.put(key, new ArrayList<ListRetrieveDetailDTO>());
+            }
+            detailDTOMap.get(key).add(detailDTO);
+        }*/
+        LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> detailMap =  new LinkedHashMap<>();
+        for (ListRetrieveDetailDTO detailDTO : listRetrieveDetailDTOs) {
+            String key = detailDTO.getInputDate();
+            if (detailMap.get(key) == null) {
+                detailMap.put(key, new ArrayList<ListRetrieveDetailData>());
+            }
+            detailMap.get(key).add(new ListRetrieveDetailData(detailDTO));
         }
 
-        return new ListRetrieveData(DTO, listRetrieveDetailDatas);
+        /*for (ListRetrieveDetailDTO listRetrieveDetailDTO : listRetrieveDetailDTOs) {
+            listRetrieveDetailDatas.add(new ListRetrieveDetailData(listRetrieveDetailDTO));
+        }*/
+
+        Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult = new Tuple(new ListRetrieveData(DTO, detailMap), detailMap);
+
+        return tupleResult;
     }
 }
