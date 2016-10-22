@@ -1,22 +1,22 @@
 package com.example.jungwh.fragmenttest.gui.secondTab;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 
-import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.ListRetrieveData;
@@ -29,8 +29,13 @@ import com.example.jungwh.fragmenttest.util.Tuple;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 /**
  * Created by jungwh on 2016-09-26.
@@ -39,23 +44,56 @@ import java.util.LinkedHashMap;
 @SuppressLint("ValidFragment")
 public class SecondTabActivity extends Fragment {
     private ListRetrieveTask authTask = null;
-    private View progressView, formView;
-    //private ListRetrieveData listRetrieveData;
+    private ProgressDialog progressDialog;
     private Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult;
-    /*private ArrayList<String> mGroupList = null;
-    private ArrayList<ArrayList<String>> mChildList = null;
-    private ArrayList<String> mChildListContent = null;*/
     private ExpandableListView mListView;
+    private TextView tvSummaryPriceValue;
+    private Bundle userInfoBundle;
+    private EditText etInputDataFrom, etInputDataTo;
+    private DatePickerDialog datePickerDialogFrom, datePickerDialogTo;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View secondTabView = layoutInflater.inflate(R.layout.fragment_second_tab, viewGroup, false);
 
-        formView = secondTabView.findViewById(R.id.activity_list_ll_retrieve_form);
-        progressView = secondTabView.findViewById(R.id.activity_list_rl_retrieve_layout);
+        userInfoBundle = getArguments();
+
+        etInputDataFrom = (EditText) secondTabView.findViewById(R.id.searchBarDateFrom);
+        etInputDataTo = (EditText) secondTabView.findViewById(R.id.searchBarDateTo);
+
+        etInputDataFrom.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
+        etInputDataTo.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
+
+        etInputDataFrom.setOnClickListener(mOnClickListener);
+        etInputDataTo.setOnClickListener(mOnClickListener);
+
+        Calendar newCalendar = Calendar.getInstance();
+        final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        datePickerDialogFrom = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etInputDataFrom.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialogTo = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                etInputDataTo.setText(dateFormatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
         mListView = (ExpandableListView) secondTabView.findViewById(R.id.second_expandable_list_view);
         secondTabView.findViewById(R.id.retrieve).setOnClickListener(mOnClickListener);
+
+        tvSummaryPriceValue = (TextView) secondTabView.findViewById(R.id.summaryPriceValue);
+
         return secondTabView;
     }
 
@@ -66,9 +104,22 @@ public class SecondTabActivity extends Fragment {
                 case R.id.retrieve :
                     asyncTaskStart();
                     break;
+                case R.id.searchBarDateFrom :
+                    datePickerDialogFrom.show();
+                    break;
+                case R.id.searchBarDateTo :
+                    datePickerDialogTo.show();
+                    break;
             }
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (progressDialog != null)
+            progressDialog.dismiss();
+    }
 
     private void asyncTaskStart() {
         if (authTask != null) {
@@ -76,11 +127,11 @@ public class SecondTabActivity extends Fragment {
         }
 
         //authTask = new ListRetrieveTask(getApplicationContext(), inputDateFrom, inputDateTo, userId);
-        authTask = new ListRetrieveTask(getActivity(), "20161001", "20161031", "1234");
+        authTask = new ListRetrieveTask(getActivity(), etInputDataFrom.getText().toString().replace("-",""), etInputDataTo.getText().toString().replace("-",""), userInfoBundle.getString("USER_ID"));
         authTask.execute((Void) null);
     }
 
-    private void retrieve(LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> mapResult){
+    private void retrieve(Integer sumPriceValue, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> mapResult){
 
         if (mapResult == null) return;
 
@@ -88,92 +139,10 @@ public class SecondTabActivity extends Fragment {
                 mapResult);
         mListView.setAdapter(expandableListAdapter);
 
-        //DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        //tvQtyGrandTotal.setText(decimalFormat.format(orderList.getQtyGrandTotal()));
-        //tvPriceGrandTotal.setText(decimalFormat.format(orderList.getTaxedSupplyPriceGrandTotal()));
 
-        /*mGroupList = new ArrayList<String>();
-        mChildList = new ArrayList<ArrayList<String>>();
-        mChildListContent = new ArrayList<String>();
-
-        mGroupList.add("가위");
-        mGroupList.add("바위");
-        mGroupList.add("보");
-
-        mChildListContent.add("1");
-        mChildListContent.add("2");
-        mChildListContent.add("3");
-
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-
-        mListView.setAdapter(new BaseExpandableAdapter(getActivity(), mGroupList, listRetrieveData.getChildList()));*/
-
-        /*mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Toast.makeText(getActivity(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-
-        mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(getActivity(), "c click = " + childPosition,
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity(), "g Collapse = " + groupPosition,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity(), "g Expand = " + groupPosition,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });*/
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            formView.setVisibility(show ? View.GONE : View.VISIBLE);
-            formView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    formView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            formView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        String formattedSummaryPriceValue = decimalFormat.format(sumPriceValue);
+        tvSummaryPriceValue.setText(String.valueOf(formattedSummaryPriceValue));
     }
 
     private class ListRetrieveTask
@@ -196,7 +165,7 @@ public class SecondTabActivity extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress(true);
+            progressDialog = ProgressDialog.show(getActivity(), getString(R.string.second_section_title), "데이터 조회중입니다...", true);
         }
 
         @Override
@@ -213,10 +182,10 @@ public class SecondTabActivity extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             authTask = null;
-            showProgress(false);
+            progressDialog.dismiss();
 
             if (success) {
-                retrieve(tupleResult.getY());
+                retrieve(tupleResult.getX().getSumPriceValue(), tupleResult.getY());
             } else {
                 listRetrieveErrMsg = tupleResult.getX().getErrMsg();
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
@@ -227,7 +196,6 @@ public class SecondTabActivity extends Fragment {
         @Override
         protected void onCancelled() {
             authTask = null;
-            showProgress(false);
         }
     }
 }

@@ -27,7 +27,7 @@ public class ListRetrieveService {
             throws IOException, JSONException {
         ListRetrieveDTO DTO = DAL.listRetrieve(inputDateFrom, inputDateTo, id);
         ArrayList<ListRetrieveDetailDTO> listRetrieveDetailDTOs = new ArrayList<>();
-        ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas = new ArrayList<>();
+        Integer sumPriceValue = 0;
 
         JSONArray jsonArray = DTO.getData();
         for (int i = 0; i < jsonArray.length(); i++){
@@ -35,20 +35,13 @@ public class ListRetrieveService {
             ListRetrieveDetailDTO listRetrieveDetailDTO = new ListRetrieveDetailDTO();
             listRetrieveDetailDTO.setInputDate(jsonObject.getString("INPUT_DATE"));
             listRetrieveDetailDTO.setInputPc(jsonObject.getInt("INPUT_PC"));
+            sumPriceValue += jsonObject.getInt("INPUT_PC");
             listRetrieveDetailDTO.setInputIem(jsonObject.getString("INPUT_IEM"));
             listRetrieveDetailDTO.setInputCategory(jsonObject.getString("INPUT_CATEGORY"));
             listRetrieveDetailDTO.setInputMemo(jsonObject.getString("INPUT_MEMO"));
             listRetrieveDetailDTOs.add(listRetrieveDetailDTO);
         }
 
-        /*Map<String, ArrayList<ListRetrieveDetailDTO>> detailDTOMap =  new HashMap<>();
-        for (ListRetrieveDetailDTO detailDTO : listRetrieveDetailDTOs) {
-            String key = detailDTO.getInputDate();
-            if (detailDTOMap.get(key) == null) {
-                detailDTOMap.put(key, new ArrayList<ListRetrieveDetailDTO>());
-            }
-            detailDTOMap.get(key).add(detailDTO);
-        }*/
         LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> detailMap =  new LinkedHashMap<>();
         for (ListRetrieveDetailDTO detailDTO : listRetrieveDetailDTOs) {
             String key = detailDTO.getInputDate();
@@ -58,11 +51,7 @@ public class ListRetrieveService {
             detailMap.get(key).add(new ListRetrieveDetailData(detailDTO));
         }
 
-        /*for (ListRetrieveDetailDTO listRetrieveDetailDTO : listRetrieveDetailDTOs) {
-            listRetrieveDetailDatas.add(new ListRetrieveDetailData(listRetrieveDetailDTO));
-        }*/
-
-        Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult = new Tuple(new ListRetrieveData(DTO, detailMap), detailMap);
+        Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult = new Tuple(new ListRetrieveData(DTO, detailMap, sumPriceValue), detailMap);
 
         return tupleResult;
     }

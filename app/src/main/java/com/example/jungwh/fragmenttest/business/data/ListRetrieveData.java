@@ -17,10 +17,11 @@ import java.util.Map;
 public class ListRetrieveData implements Parcelable {
     private boolean isThereData;
     private String errMsg;
+    private Integer sumPriceValue;
     private static Map<String, ArrayList<ListRetrieveDetailData>> map;
 
 
-    public ListRetrieveData(ListRetrieveDTO DTO, Map<String, ArrayList<ListRetrieveDetailData>> listRetrieveDetailDatas) {
+    public ListRetrieveData(ListRetrieveDTO DTO, Map<String, ArrayList<ListRetrieveDetailData>> listRetrieveDetailDatas, Integer sumPriceValue) {
         if (TextUtils.equals(DTO.getErrMsg(), "") & listRetrieveDetailDatas.size() > 0) {
             setThereData(true);
             setErrMsg(DTO.getErrMsg());
@@ -32,6 +33,7 @@ public class ListRetrieveData implements Parcelable {
             setErrMsg(DTO.getErrMsg());
         }
         setMap(listRetrieveDetailDatas);
+        setSumPriceValue(sumPriceValue);
     }
 
     protected ListRetrieveData(Parcel in) {
@@ -84,5 +86,13 @@ public class ListRetrieveData implements Parcelable {
 
     public void setThereData(boolean thereData) {
         isThereData = thereData;
+    }
+
+    public Integer getSumPriceValue() {
+        return sumPriceValue;
+    }
+
+    public void setSumPriceValue(Integer sumPriceValue) {
+        this.sumPriceValue = sumPriceValue;
     }
 }

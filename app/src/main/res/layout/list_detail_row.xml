@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="4dp"
-    android:paddingLeft="20dp"
+    android:paddingLeft="12dp"
     android:background="@color/White"
     android:baselineAligned="false"
     android:orientation="vertical">
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:shrinkColumns="*">
 
         <TableRow
             android:layout_height="wrap_content"
@@ -102,7 +103,8 @@
     </TableLayout>
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:shrinkColumns="1">
 
         <TableRow
             android:layout_height="wrap_content"
