@@ -3,11 +3,7 @@ package com.example.jungwh.fragmenttest.business.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDTO;
 import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDetailDTO;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Created by jungwh on 2016-10-19.
@@ -15,24 +11,24 @@ import org.json.JSONObject;
 
 public class ListRetrieveDetailData implements Parcelable{
     private String inputDate;
-    private String inputPc;
+    private Integer inputPc;
     private String inputIem;
-    private String inputCatagory;
+    private String inputCategory;
     private String inputMemo;
 
     public ListRetrieveDetailData (ListRetrieveDetailDTO DTO) {
         setInputDate(DTO.getInputDate());
         setInputPc(DTO.getInputPc());
         setInputIem(DTO.getInputIem());
-        setInputCatagory(DTO.getInputCatagory());
+        setInputCategory(DTO.getInputCategory());
         setInputMemo(DTO.getInputMemo());
     }
 
     protected ListRetrieveDetailData(Parcel in) {
         inputDate = in.readString();
-        inputPc = in.readString();
+        inputPc = in.readInt();
         inputIem = in.readString();
-        inputCatagory = in.readString();
+        inputCategory = in.readString();
         inputMemo = in.readString();
     }
 
@@ -56,9 +52,9 @@ public class ListRetrieveDetailData implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(inputDate);
-        dest.writeString(inputPc);
+        dest.writeInt(inputPc);
         dest.writeString(inputIem);
-        dest.writeString(inputCatagory);
+        dest.writeString(inputCategory);
         dest.writeString(inputMemo);
     }
 
@@ -70,11 +66,11 @@ public class ListRetrieveDetailData implements Parcelable{
         this.inputDate = inputDate;
     }
 
-    public String getInputPc() {
+    public Integer getInputPc() {
         return inputPc;
     }
 
-    public void setInputPc(String inputPc) {
+    public void setInputPc(Integer inputPc) {
         this.inputPc = inputPc;
     }
 
@@ -86,12 +82,12 @@ public class ListRetrieveDetailData implements Parcelable{
         this.inputIem = inputIem;
     }
 
-    public String getInputCatagory() {
-        return inputCatagory;
+    public String getInputCategory() {
+        return inputCategory;
     }
 
-    public void setInputCatagory(String inputCatagory) {
-        this.inputCatagory = inputCatagory;
+    public void setInputCategory(String inputCategory) {
+        this.inputCategory = inputCategory;
     }
 
     public String getInputMemo() {

@@ -37,6 +37,13 @@
     <string name="content_hint">내용을 간단히 적어주세요.</string>
     <string name="okay">확인</string>
     <string name="cancel">취소</string>
+    <string name="dateString">날짜 :</string>
+    <string name="totalPrice">총 금액 :</string>
+    <string name="totalCount">총 갯수 :</string>
+    <string name="iemString">항목 :</string>
+    <string name="categoryString">분류 :</string>
+    <string name="memoString">메모 :</string>
+    <string name="wonString">원</string>
     <string-array name="income_category_contents">
         <item >주수입</item>
         <item >부수입</item>

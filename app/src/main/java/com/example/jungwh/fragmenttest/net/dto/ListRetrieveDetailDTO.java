@@ -2,7 +2,6 @@ package com.example.jungwh.fragmenttest.net.dto;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by jungwh on 2016-10-20.
@@ -10,9 +9,9 @@ import org.json.JSONObject;
 
 public class ListRetrieveDetailDTO {
     private String inputDate;
-    private String inputPc;
+    private Integer inputPc;
     private String inputIem;
-    private String inputCatagory;
+    private String inputCategory;
     private String inputMemo;
 
     public ListRetrieveDetailDTO() {}
@@ -30,11 +29,11 @@ public class ListRetrieveDetailDTO {
         this.inputDate = inputDate;
     }
 
-    public String getInputPc() {
+    public Integer getInputPc() {
         return inputPc;
     }
 
-    public void setInputPc(String inputPc) {
+    public void setInputPc(Integer inputPc) {
         this.inputPc = inputPc;
     }
 
@@ -46,12 +45,12 @@ public class ListRetrieveDetailDTO {
         this.inputIem = inputIem;
     }
 
-    public String getInputCatagory() {
-        return inputCatagory;
+    public String getInputCategory() {
+        return inputCategory;
     }
 
-    public void setInputCatagory(String inputCatagory) {
-        this.inputCatagory = inputCatagory;
+    public void setInputCategory(String inputCategory) {
+        this.inputCategory = inputCategory;
     }
 
     public String getInputMemo() {

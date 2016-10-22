@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="4dp"
+    android:paddingLeft="20dp"
+    android:background="@color/White"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/childIemKey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/iemString"/>
+
+                <TextView
+                    android:id="@+id/childIemValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/childIemKey"
+                    android:text="IEM"/>
+
+                <TextView
+                    android:id="@+id/childCategoryKey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/childIemKey"
+                    android:text="@string/categoryString"/>
+
+                <TextView
+                    android:id="@+id/childCategoryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/childIemValue"
+                    android:layout_toRightOf="@+id/childCategoryKey"
+                    android:text="CATEGORY"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:gravity="right"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/childPriceValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/childPriceKey"
+                    android:text="999,999"/>
+
+                <TextView
+                    android:id="@+id/childPriceKey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/Black"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="@string/wonString"/>
+            </RelativeLayout>
+        </TableRow>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:id="@+id/childMemoKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Black"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                android:layout_alignParentLeft="true"
+                android:text="@string/memoString"/>
+
+            <TextView
+                android:id="@+id/childMemoValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/DarkBlue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/childMemoKey"
+                android:text="MEMO TEST"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

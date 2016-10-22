@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -41,9 +42,9 @@ public class SecondTabActivity extends Fragment {
     private View progressView, formView;
     //private ListRetrieveData listRetrieveData;
     private Tuple<ListRetrieveData, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>>> tupleResult;
-    private ArrayList<String> mGroupList = null;
+    /*private ArrayList<String> mGroupList = null;
     private ArrayList<ArrayList<String>> mChildList = null;
-    private ArrayList<String> mChildListContent = null;
+    private ArrayList<String> mChildListContent = null;*/
     private ExpandableListView mListView;
 
     @Override
@@ -54,9 +55,20 @@ public class SecondTabActivity extends Fragment {
         progressView = secondTabView.findViewById(R.id.activity_list_rl_retrieve_layout);
 
         mListView = (ExpandableListView) secondTabView.findViewById(R.id.second_expandable_list_view);
-        asyncTaskStart();
+        secondTabView.findViewById(R.id.retrieve).setOnClickListener(mOnClickListener);
         return secondTabView;
     }
+
+    Button.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.retrieve :
+                    asyncTaskStart();
+                    break;
+            }
+        }
+    };
 
     private void asyncTaskStart() {
         if (authTask != null) {
@@ -64,7 +76,7 @@ public class SecondTabActivity extends Fragment {
         }
 
         //authTask = new ListRetrieveTask(getApplicationContext(), inputDateFrom, inputDateTo, userId);
-        authTask = new ListRetrieveTask(getActivity(), "20161001", "20161031", "test");
+        authTask = new ListRetrieveTask(getActivity(), "20161001", "20161031", "1234");
         authTask.execute((Void) null);
     }
 

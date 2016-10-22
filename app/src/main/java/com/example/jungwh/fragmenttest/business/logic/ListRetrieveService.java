@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -35,9 +34,9 @@ public class ListRetrieveService {
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             ListRetrieveDetailDTO listRetrieveDetailDTO = new ListRetrieveDetailDTO();
             listRetrieveDetailDTO.setInputDate(jsonObject.getString("INPUT_DATE"));
-            listRetrieveDetailDTO.setInputPc(jsonObject.getString("INPUT_PC"));
+            listRetrieveDetailDTO.setInputPc(jsonObject.getInt("INPUT_PC"));
             listRetrieveDetailDTO.setInputIem(jsonObject.getString("INPUT_IEM"));
-            listRetrieveDetailDTO.setInputCatagory(jsonObject.getString("INPUT_CATAGORY"));
+            listRetrieveDetailDTO.setInputCategory(jsonObject.getString("INPUT_CATEGORY"));
             listRetrieveDetailDTO.setInputMemo(jsonObject.getString("INPUT_MEMO"));
             listRetrieveDetailDTOs.add(listRetrieveDetailDTO);
         }

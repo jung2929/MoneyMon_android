@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.login).setOnClickListener(mOnClickListener);
+        /*findViewById(R.id.login).setOnClickListener(mOnClickListener);
         findViewById(R.id.register).setOnClickListener(mOnClickListener);
 
         loginFormView = findViewById(R.id.activity_login_ll_login_form);
@@ -83,7 +83,10 @@ public class LoginActivity extends AppCompatActivity {
         etUserPassword.setText(password);
         if (TextUtils.isEmpty(loginId) || TextUtils.isEmpty(password))
             return;
-        Login();
+        Login();*/
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     Button.OnClickListener mOnClickListener = new View.OnClickListener() {

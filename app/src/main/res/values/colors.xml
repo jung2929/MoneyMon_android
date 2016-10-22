@@ -144,4 +144,8 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+
+    <!-- list row color -->
+    <color name="lv_alternating_row_dark">#ECECEC</color>
+    <color name="lv_alternating_row_light">#FFFFFF</color>
 </resources>

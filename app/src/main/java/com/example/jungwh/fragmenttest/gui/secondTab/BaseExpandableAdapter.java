@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.ListRetrieveDetailData;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -21,10 +22,6 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     private Context _context;
     private LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> _listRetrieveDetailDatasMap;
 
-    /*public BaseExpandableAdapter(Context context, ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas){
-        _context = context;
-        _listRetrieveDetailDatas = listRetrieveDetailDatas;
-    }*/
     public BaseExpandableAdapter(Context context, LinkedHashMap<String, ArrayList<ListRetrieveDetailData>> listRetrieveDetailDatasMap){
         _context = context;
         _listRetrieveDetailDatasMap = listRetrieveDetailDatasMap;
@@ -32,7 +29,6 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition){
-        //return _listRetrieveDetailDatasMap.get(groupPosition);
         return _listRetrieveDetailDatasMap.keySet().toArray()[groupPosition];
     }
 
@@ -48,8 +44,9 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent){
-        //final ListRetrieveDetailData listRetrieveDetailData = (ListRetrieveDetailData) getGroup(groupPosition);
         final String inputDate = (String) getGroup(groupPosition);
+
+        final ArrayList<ListRetrieveDetailData> listRetrieveDetailDatas = (ArrayList<ListRetrieveDetailData>) getChild(groupPosition, 0);
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,10 +54,21 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         // 홀수 행일 경우 어두운 색, 짝수 행일 경우 밝은 색
-        //convertView.setBackgroundResource(groupPosition % 2 == 1 ? R.drawable.bg_lv_row_colored : R.drawable.bg_lv_row_white);
+        convertView.setBackgroundResource(groupPosition % 2 == 1 ? R.drawable.bg_lv_row_colored : R.drawable.bg_lv_row_white);
 
-        TextView tv_group = (TextView) convertView.findViewById(R.id.tv_group);
-        tv_group.setText(inputDate);
+        // 날짜
+        TextView tvInputDate = (TextView) convertView.findViewById(R.id.groupInputDateValue);
+        tvInputDate.setText(inputDate);
+
+        // 총 가격
+        int sumInputPc = 0;
+        for (ListRetrieveDetailData childData : listRetrieveDetailDatas) {
+            sumInputPc += childData.getInputPc();
+        }
+        TextView tvTotalInputPc = (TextView) convertView.findViewById(R.id.groupTotalInputPcValue);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        String formattedTotalInputPc = decimalFormat.format(sumInputPc);
+        tvTotalInputPc.setText(String.valueOf(formattedTotalInputPc));
 
         return convertView;
     }
@@ -87,36 +95,29 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_row, null);
+            convertView = layoutInflater.inflate(R.layout.list_detail_row, null);
         }
 
-        /*if (groupPosition % 2 == 1)
+        if (groupPosition % 2 == 1)
             convertView.setBackgroundColor(parent.getResources().getColor(R.color.lv_alternating_row_dark));
         else
-            convertView.setBackgroundColor(parent.getResources().getColor(R.color.lv_alternating_row_light));*/
+            convertView.setBackgroundColor(parent.getResources().getColor(R.color.lv_alternating_row_light));
 
-        TextView tv_child = (TextView) convertView.findViewById(R.id.tv_child);
-        tv_child.setText(listRetrieveDetailDatas.get(childPosition).getInputMemo());
+        // 분류
+        TextView tvIemValue = (TextView) convertView.findViewById(R.id.childIemValue);
+        tvIemValue.setText(listRetrieveDetailDatas.get(childPosition).getInputIem());
 
-        /*TextView tvInternationalCode = (TextView) convertView.findViewById(R.id.row_order_detail_tv_international_code);
-        tvInternationalCode.setText(orderDetails.getInternationalCode());
+        // 항목
+        TextView tvCategoryValue = (TextView) convertView.findViewById(R.id.childCategoryValue);
+        tvCategoryValue.setText(listRetrieveDetailDatas.get(childPosition).getInputCategory());
 
-        TextView tvColor = (TextView) convertView.findViewById(R.id.row_order_detail_tv_color);
-        tvColor.setText(orderDetails.getColor());
+        TextView tvPriceValue = (TextView) convertView.findViewById(R.id.childPriceValue);
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        String formattedPrice = decimalFormat.format(listRetrieveDetailDatas.get(childPosition).getInputPc());
+        tvPriceValue.setText(String.valueOf(formattedPrice));
 
-        TextView tvDiscount = (TextView) convertView.findViewById(R.id.row_order_detail_tv_discount);
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-        String formattedDiscount = decimalFormat.format(orderDetails.getPercentDiscount());
-        tvDiscount.setText(formattedDiscount + "%");
-
-        TextView tvMargin = (TextView) convertView.findViewById(R.id.row_order_detail_tv_margin);
-        String formattedMargin = decimalFormat.format(orderDetails.getPercentMargin());
-        tvMargin.setText(formattedMargin + "%");
-
-        TextView tvUnitSellingPrice = (TextView) convertView.findViewById(R.id.row_order_detail_tv_unit_selling_price);
-        decimalFormat = new DecimalFormat("#,##0");
-        String formattedUnitSellingPrice = decimalFormat.format(orderDetails.getUnitSellingPrice());
-        tvUnitSellingPrice.setText(formattedUnitSellingPrice);*/
+        TextView tvMemoValue = (TextView) convertView.findViewById(R.id.childMemoValue);
+        tvMemoValue.setText(listRetrieveDetailDatas.get(childPosition).getInputMemo());
 
         return convertView;
     }
