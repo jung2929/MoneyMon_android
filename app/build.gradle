@@ -32,4 +32,6 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     compile 'junit:junit:4.12'
+
+    compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.5'
 }

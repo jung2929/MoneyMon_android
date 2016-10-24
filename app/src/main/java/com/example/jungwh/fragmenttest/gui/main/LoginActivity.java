@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         loginFormView = findViewById(R.id.activity_login_ll_login_form);
         progressView = findViewById(R.id.activity_login_rl_login_layout);
 
-        LoginService loginService = new LoginService();
+        /*LoginService loginService = new LoginService();
         LoginData cachedLoginData = loginService.getCachedLoginData(this.getBaseContext());
         if (cachedLoginData == null)
             return;
@@ -83,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
         etUserPassword.setText(password);
         if (TextUtils.isEmpty(loginId) || TextUtils.isEmpty(password))
             return;
-        Login();
-//        finish();
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        startActivity(intent);
+        Login();*/
+        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     Button.OnClickListener mOnClickListener = new View.OnClickListener() {

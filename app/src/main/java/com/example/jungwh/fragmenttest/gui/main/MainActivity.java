@@ -1,9 +1,9 @@
 package com.example.jungwh.fragmenttest.gui.main;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
@@ -19,9 +21,9 @@ import com.example.jungwh.fragmenttest.business.logic.LoginService;
 import com.example.jungwh.fragmenttest.gui.firstTab.FirstTabActivity;
 import com.example.jungwh.fragmenttest.gui.secondTab.SecondTabActivity;
 import com.example.jungwh.fragmenttest.gui.ThirdTab.ThirdTabActivity;
+import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
 
 import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -37,11 +39,46 @@ public class MainActivity extends AppCompatActivity {
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        final String[] colors = getResources().getStringArray(R.array.default_preview);
+
+        final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
+        final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
+        models.add(
+                new NavigationTabBar.Model.Builder(
+                        getResources().getDrawable(R.drawable.ic_first),
+                        Color.parseColor(colors[0]))
+                        .title(getString(R.string.first_section_title))
+                        .build()
+        );
+        models.add(
+                new NavigationTabBar.Model.Builder(
+                        getResources().getDrawable(R.drawable.ic_second),
+                        Color.parseColor(colors[1]))
+                        .title(getString(R.string.second_section_title))
+                        .build()
+        );
+        models.add(
+                new NavigationTabBar.Model.Builder(
+                        getResources().getDrawable(R.drawable.ic_third),
+                        Color.parseColor(colors[2]))
+                        .title(getString(R.string.third_section_title))
+                        .build()
+        );
+        navigationTabBar.setModels(models);
+        navigationTabBar.setViewPager(mViewPager,0);
+
+        navigationTabBar.post(new Runnable() {
+            @Override
+            public void run() {
+                final View viewPager = findViewById(R.id.vp_horizontal_ntb);
+                ((ViewGroup.MarginLayoutParams) viewPager.getLayoutParams()).topMargin =
+                        (int) -navigationTabBar.getBadgeMargin();
+                viewPager.requestLayout();
+            }
+        });
     }
 
     @Override
@@ -116,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     SecondTabActivity secondTabActivity = new SecondTabActivity();
                     Bundle bundle = new Bundle();
-                    bundle.putString("USER_ID", loginData.getLoginId());
+                    //bundle.putString("USER_ID", loginData.getLoginId());
+                    bundle.putString("USER_ID", "test");
                     secondTabActivity.setArguments(bundle);
                     return secondTabActivity;
                 case 2:
@@ -131,20 +169,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return 3;
-        }
-
-        // 탭의 타이틀을 지정하는 곳
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.first_section_title);
-                case 1:
-                    return getString(R.string.second_section_title);
-                case 2:
-                    return getString(R.string.third_section_title);
-            }
-            return null;
         }
     }
 }

@@ -110,7 +110,7 @@
                 android:textColor="@color/Black"
                 android:text="@string/income_remark" />
             <EditText
-                android:id="@+id/income_remark"
+                android:id="@+id/income_memo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edittext_rounded"

@@ -187,7 +187,10 @@ public class SecondTabActivity extends Fragment {
             if (success) {
                 retrieve(tupleResult.getX().getSumPriceValue(), tupleResult.getY());
             } else {
-                listRetrieveErrMsg = tupleResult.getX().getErrMsg();
+                if (tupleResult != null){
+                    listRetrieveErrMsg = tupleResult.getX().getErrMsg();
+                }
+
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
                 alertDialogWrapper.showAlertDialog(getActivity(), getString(R.string.help), listRetrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
             }

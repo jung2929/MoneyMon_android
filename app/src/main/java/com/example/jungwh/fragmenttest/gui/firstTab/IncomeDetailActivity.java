@@ -1,11 +1,8 @@
 package com.example.jungwh.fragmenttest.gui.firstTab;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,6 +33,8 @@ public class IncomeDetailActivity extends AppCompatActivity {
     // 값 셋팅시, StackOverFlow를 막기 위해서, 바뀐 변수를 저장해준다.
     private String mResult ="";
     private DatePickerDialog mDatePickerDialog;
+    EditText etIncomeDate, etIncomePrice, etIncomeContents, etIncomeMemo;
+    Spinner spCategoryContents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // 일자
-        final EditText etIncomeDate = (EditText) findViewById(R.id.income_date);
+        etIncomeDate = (EditText) findViewById(R.id.income_date);
 
         // 일자 포멧팅
         Calendar newCalendar = Calendar.getInstance();
@@ -70,8 +69,8 @@ public class IncomeDetailActivity extends AppCompatActivity {
         });
 
         // 가격
-        final EditText editTextPrice = (EditText) findViewById(R.id.income_price);
-        editTextPrice.addTextChangedListener(new TextWatcher() {
+        etIncomePrice = (EditText) findViewById(R.id.income_price);
+        etIncomePrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -80,8 +79,8 @@ public class IncomeDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals(mResult)){
                     mResult = mDecimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
-                    editTextPrice.setText(mResult);
-                    editTextPrice.setSelection(mResult.length());
+                    etIncomePrice.setText(mResult);
+                    etIncomePrice.setSelection(mResult.length());
                 }
             }
 
@@ -90,7 +89,14 @@ public class IncomeDetailActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spCategoryContents = (Spinner) findViewById(R.id.income_category_contents);
+        // 내역
+        etIncomeContents = (EditText) findViewById(R.id.income_contents);
+
+        // 내용
+        etIncomeMemo = (EditText) findViewById(R.id.income_memo);
+
+        // 카테고리
+        spCategoryContents = (Spinner) findViewById(R.id.income_category_contents);
         spCategoryContents.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -126,6 +132,10 @@ public class IncomeDetailActivity extends AppCompatActivity {
     };
 
     public void saveData(){
+        String a = etIncomeDate.getText().toString();
+        String b = etIncomePrice.getText().toString();
+        String c = etIncomeContents.getText().toString();
+        String d = etIncomeMemo.getText().toString();
 
     }
 
