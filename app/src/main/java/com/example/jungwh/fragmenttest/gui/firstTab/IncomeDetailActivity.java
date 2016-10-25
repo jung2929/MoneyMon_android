@@ -136,7 +136,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         String b = etIncomePrice.getText().toString();
         String c = etIncomeContents.getText().toString();
         String d = etIncomeMemo.getText().toString();
-
+        String e = spCategoryContents.getSelectedItem().toString();
     }
 
     @Override
