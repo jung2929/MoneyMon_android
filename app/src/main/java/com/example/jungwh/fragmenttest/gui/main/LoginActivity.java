@@ -1,12 +1,8 @@
 package com.example.jungwh.fragmenttest.gui.main;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -25,6 +21,7 @@ import com.example.jungwh.fragmenttest.business.data.LoginData;
 import com.example.jungwh.fragmenttest.business.logic.LoginService;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
 import com.example.jungwh.fragmenttest.util.KeyboardHelper;
+import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
 
 import org.json.JSONException;
 
@@ -38,7 +35,7 @@ import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etUserId, etUserPassword;
-    private View progressView, loginFormView;
+    private View viewProgress, viewLoginForm;
     private UserLoginTask authTask = null;
     private boolean isBackPressedOnce = false;
 
@@ -55,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         etUserPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView viewText, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE) {
                     Login();
                     return false;
@@ -67,10 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login).setOnClickListener(mOnClickListener);
         findViewById(R.id.register).setOnClickListener(mOnClickListener);
 
-        loginFormView = findViewById(R.id.activity_login_ll_login_form);
-        progressView = findViewById(R.id.activity_login_rl_login_layout);
+        viewLoginForm = findViewById(R.id.activity_login_form);
+        viewProgress = findViewById(R.id.activity_login_layout);
 
-        /*LoginService loginService = new LoginService();
+        LoginService loginService = new LoginService();
         LoginData cachedLoginData = loginService.getCachedLoginData(this.getBaseContext());
         if (cachedLoginData == null)
             return;
@@ -83,10 +80,10 @@ public class LoginActivity extends AppCompatActivity {
         etUserPassword.setText(password);
         if (TextUtils.isEmpty(loginId) || TextUtils.isEmpty(password))
             return;
-        Login();*/
-        finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        Login();
+//        finish();
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
     }
 
     Button.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -175,35 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() > 4;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            progressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
 
     private class UserLoginTask
@@ -226,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress(true);
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewLoginForm);
         }
 
         @Override
@@ -243,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             authTask = null;
-            showProgress(false);
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewLoginForm);
 
             if (success) {
                 loginService.saveAutoLoginOption(this.context, true);
@@ -262,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             authTask = null;
-            showProgress(false);
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewLoginForm);
         }
     }
 }

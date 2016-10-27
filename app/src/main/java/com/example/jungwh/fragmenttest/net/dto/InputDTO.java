@@ -1,35 +1,41 @@
 package com.example.jungwh.fragmenttest.net.dto;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by jungwh on 2016-10-07.
+ * Created by jungwh on 2016-10-26.
  */
 
-public class LoginDTO {
+public class InputDTO {
     private String data;
     private String errMsg;
-    private Boolean result;
+    private Integer totalPrice;
 
-    public LoginDTO() {}
+    public InputDTO() {}
 
-    public LoginDTO(JSONObject responseJson)
+    public InputDTO(JSONObject responseJson)
             throws JSONException {
         setErrMsg(responseJson.getString("errorMsg"));
         setData(responseJson.getString("data"));
 
-        JSONObject jsonObject = responseJson.getJSONObject("data");
-        if(jsonObject.get("result").equals(true)){
-            setResult(true);
-        }else{
-            setResult(false);
-        }
+        JSONArray jsonArray = responseJson.getJSONArray("data");
+        setTotalPrice(Integer.parseInt(jsonArray.getJSONObject(0).getString("TOTAL_PRICE").toString()));
+    }
+
+    public Integer getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Integer totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getData() {
         return data;
     }
+
     public void setData(String data) {
         this.data = data;
     }
@@ -37,14 +43,8 @@ public class LoginDTO {
     public String getErrMsg() {
         return errMsg;
     }
+
     public void setErrMsg(String errMsg) {
         this.errMsg = errMsg;
-    }
-
-    public Boolean getResult() {
-        return result;
-    }
-    public void setResult(Boolean result) {
-        this.result = result;
     }
 }

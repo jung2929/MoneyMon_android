@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.LoginData;
 import com.example.jungwh.fragmenttest.business.logic.LoginService;
-import com.example.jungwh.fragmenttest.gui.firstTab.FirstTabActivity;
+import com.example.jungwh.fragmenttest.gui.InputTab.InputTabActivity;
 import com.example.jungwh.fragmenttest.gui.secondTab.SecondTabActivity;
 import com.example.jungwh.fragmenttest.gui.ThirdTab.ThirdTabActivity;
 import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
@@ -26,8 +26,8 @@ import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private SectionsPagerAdapter sectionsPagerAdapter;
+    private ViewPager viewPager;
     private LoginData loginData;
     private boolean isBackPressedOnce = false;
 
@@ -37,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
         loginData = getIntent().getParcelableExtra("LOGIN_DATA");
         setContentView(R.layout.activity_main);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
+        viewPager.setAdapter(sectionsPagerAdapter);
 
         final String[] colors = getResources().getStringArray(R.array.default_preview);
 
-        final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.ntb_horizontal);
+        final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.horizontal_ntb);
         final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
         models.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.ic_first),
                         Color.parseColor(colors[0]))
-                        .title(getString(R.string.first_section_title))
+                        .title(getString(R.string.input_section_title))
                         .build()
         );
         models.add(
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         .build()
         );
         navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(mViewPager,0);
+        navigationTabBar.setViewPager(viewPager,0);
 
         navigationTabBar.post(new Runnable() {
             @Override
@@ -147,20 +147,23 @@ public class MainActivity extends AppCompatActivity {
         // 탭의 컨택스트를 연동하는 곳
         @Override
         public Fragment getItem(int position) {
+            Bundle bundle = new Bundle();
+            bundle.putString("USER_ID", loginData.getLoginId());
+            //bundle.putString("USER_ID", "test");
             switch (position){
                 case 0:
-                    return new FirstTabActivity();
+                    InputTabActivity inputTabActivity = new InputTabActivity();
+                    inputTabActivity.setArguments(bundle);
+                    return inputTabActivity;
                 case 1:
                     SecondTabActivity secondTabActivity = new SecondTabActivity();
-                    Bundle bundle = new Bundle();
-                    //bundle.putString("USER_ID", loginData.getLoginId());
-                    bundle.putString("USER_ID", "test");
                     secondTabActivity.setArguments(bundle);
                     return secondTabActivity;
                 case 2:
-                    return new ThirdTabActivity();
+                    ThirdTabActivity thirdTabActivity = new ThirdTabActivity();
+                    thirdTabActivity.setArguments(bundle);
+                    return thirdTabActivity;
             }
-
 
             return null;
         }

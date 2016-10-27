@@ -34,7 +34,7 @@ public class ListRetrieveService {
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             ListRetrieveDetailDTO listRetrieveDetailDTO = new ListRetrieveDetailDTO();
             listRetrieveDetailDTO.setInputDate(jsonObject.getString("INPUT_DATE"));
-            listRetrieveDetailDTO.setInputPc(jsonObject.getInt("INPUT_PC"));
+            listRetrieveDetailDTO.setInputPrice(jsonObject.getInt("INPUT_PC"));
             sumPriceValue += jsonObject.getInt("INPUT_PC");
             listRetrieveDetailDTO.setInputIem(jsonObject.getString("INPUT_IEM"));
             listRetrieveDetailDTO.setInputCategory(jsonObject.getString("INPUT_CATEGORY"));

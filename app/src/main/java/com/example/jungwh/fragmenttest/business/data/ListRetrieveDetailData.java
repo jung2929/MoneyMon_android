@@ -11,14 +11,14 @@ import com.example.jungwh.fragmenttest.net.dto.ListRetrieveDetailDTO;
 
 public class ListRetrieveDetailData implements Parcelable{
     private String inputDate;
-    private Integer inputPc;
+    private Integer inputPrice;
     private String inputIem;
     private String inputCategory;
     private String inputMemo;
 
     public ListRetrieveDetailData (ListRetrieveDetailDTO DTO) {
         setInputDate(DTO.getInputDate());
-        setInputPc(DTO.getInputPc());
+        setInputPrice(DTO.getInputPrice());
         setInputIem(DTO.getInputIem());
         setInputCategory(DTO.getInputCategory());
         setInputMemo(DTO.getInputMemo());
@@ -26,7 +26,7 @@ public class ListRetrieveDetailData implements Parcelable{
 
     protected ListRetrieveDetailData(Parcel in) {
         inputDate = in.readString();
-        inputPc = in.readInt();
+        inputPrice = in.readInt();
         inputIem = in.readString();
         inputCategory = in.readString();
         inputMemo = in.readString();
@@ -52,7 +52,7 @@ public class ListRetrieveDetailData implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(inputDate);
-        dest.writeInt(inputPc);
+        dest.writeInt(inputPrice);
         dest.writeString(inputIem);
         dest.writeString(inputCategory);
         dest.writeString(inputMemo);
@@ -66,12 +66,12 @@ public class ListRetrieveDetailData implements Parcelable{
         this.inputDate = inputDate;
     }
 
-    public Integer getInputPc() {
-        return inputPc;
+    public Integer getInputPrice() {
+        return inputPrice;
     }
 
-    public void setInputPc(Integer inputPc) {
-        this.inputPc = inputPc;
+    public void setInputPrice(Integer inputPrice) {
+        this.inputPrice = inputPrice;
     }
 
     public String getInputIem() {

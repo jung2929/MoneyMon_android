@@ -21,7 +21,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <com.gigamole.navigationtabbar.ntb.NavigationTabBar
-                android:id="@+id/ntb_horizontal"
+                android:id="@+id/horizontal_ntb"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 app:ntb_bg_color="@color/colorPrimary"

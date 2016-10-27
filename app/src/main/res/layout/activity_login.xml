@@ -10,7 +10,7 @@
     tools:context="com.example.jungwh.fragmenttest.gui.main.LoginActivity">
 
     <RelativeLayout
-        android:id="@+id/activity_login_rl_login_layout"
+        android:id="@+id/activity_login_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -18,7 +18,6 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/activity_login_pb_login_progress"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +28,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/activity_login_ll_login_form"
+        android:id="@+id/activity_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

@@ -15,8 +15,7 @@ import okhttp3.HttpUrl;
  */
 
 public class ListRetrieveDAL {
-    private NetworkService networkService;
-
+    private static NetworkService networkService;
 
     public ListRetrieveDAL()  { networkService = new NetworkService(); }
 

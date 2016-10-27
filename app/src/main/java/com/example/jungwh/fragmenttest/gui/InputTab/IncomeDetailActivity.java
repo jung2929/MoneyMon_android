@@ -1,4 +1,4 @@
-package com.example.jungwh.fragmenttest.gui.firstTab;
+package com.example.jungwh.fragmenttest.gui.InputTab;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
