@@ -26,11 +26,20 @@
     <string name="second_section_title">지출 내역</string>
     <string name="third_section_title">패턴 분석</string>
     <string name="total_Price">자금 : </string>
+
+    <string name="spend_date">지출 일자 :</string>
+    <string name="spend_price">지출 금액 :</string>
+    <string name="spend_contents">지출 내역 :</string>
+    <string name="spend_category">카테고리 :</string>
+    <string name="spend_method">지출 수단 :</string>
+    <string name="spend_remark">메모 :</string>
+
     <string name="income_date">수입 일자 :</string>
     <string name="income_price">수입 금액 :</string>
     <string name="income_contents">수입 내역 :</string>
     <string name="income_category">카테고리 :</string>
     <string name="income_remark">메모 :</string>
+
     <string name="remark_hint">사용한 내역을 적어주세요.</string>
     <string name="date_hint">날짜를 선택해주세요.</string>
     <string name="price_hint">가격을 입력해주세요.</string>
@@ -47,8 +56,34 @@
     <string name="wonString">원</string>
     <string name="retrieve">조회</string>
     <string name="retrieveString">조회날짜</string>
+
     <string-array name="income_category_contents">
-        <item >주수입</item>
-        <item >부수입</item>
+        <item >급여</item>
+        <item >보너스</item>
+        <item >이자</item>
+        <item >기타</item>
     </string-array>
+    <string-array name="spend_method_contents">
+        <item >현금</item>
+        <item >신한카드</item>
+        <item >현대카드</item>
+        <item >삼성카드</item>
+        <item >KB국민카드</item>
+        <item >롯데카드</item>
+        <item >하나카드</item>
+        <item >우리카드</item>
+        <item >씨티카드</item>
+        <item >NH농협카드</item>
+        <item >IBK기업은행</item>
+        <item >기타</item>
+    </string-array>
+    <string-array name="spend_category_contents">
+        <item>식비</item>
+        <item>쇼핑</item>
+        <item>교통비</item>
+        <item>휴대폰요금</item>
+    </string-array>
+
+    <!-- 그래프 화면 -->
+    <string name="Graph_price_hint">\ 10,000</string>
 </resources>

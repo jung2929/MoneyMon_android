@@ -10,7 +10,7 @@ import com.example.jungwh.fragmenttest.net.dto.InputDTO;
  */
 
 public class InputData implements Parcelable {
-    private Integer totalPrice;
+    private String totalPrice;
 
     public InputData() {}
 
@@ -31,7 +31,7 @@ public class InputData implements Parcelable {
     };
 
     protected InputData(Parcel in) {
-        in.writeInt(totalPrice);
+        in.writeString(totalPrice);
     }
 
     @Override
@@ -41,13 +41,13 @@ public class InputData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(totalPrice);
+        dest.writeString(totalPrice);
     }
 
-    public Integer getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

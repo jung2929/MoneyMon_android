@@ -61,14 +61,14 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         tvInputDate.setText(inputDate);
 
         // 총 가격
-        int sumInputPrice = 0;
+        int sumInputPc = 0;
         for (ListRetrieveDetailData childData : listRetrieveDetailDatas) {
-            sumInputPrice += childData.getInputPrice();
+            sumInputPc += childData.getInputPc();
         }
-        TextView tvTotalInputPrice = (TextView) convertView.findViewById(R.id.groupTotalInputPriceValue);
+        TextView tvTotalInputPc = (TextView) convertView.findViewById(R.id.groupTotalInputPcValue);
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        String formattedTotalInputPrice = decimalFormat.format(sumInputPrice);
-        tvTotalInputPrice.setText(String.valueOf(formattedTotalInputPrice));
+        String formattedTotalInputPc = decimalFormat.format(sumInputPc);
+        tvTotalInputPc.setText(String.valueOf(formattedTotalInputPc));
 
         return convertView;
     }
@@ -113,7 +113,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
 
         TextView tvPriceValue = (TextView) convertView.findViewById(R.id.childPriceValue);
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
-        String formattedPrice = decimalFormat.format(listRetrieveDetailDatas.get(childPosition).getInputPrice());
+        String formattedPrice = decimalFormat.format(listRetrieveDetailDatas.get(childPosition).getInputPc());
         tvPriceValue.setText(String.valueOf(formattedPrice));
 
         TextView tvMemoValue = (TextView) convertView.findViewById(R.id.childMemoValue);

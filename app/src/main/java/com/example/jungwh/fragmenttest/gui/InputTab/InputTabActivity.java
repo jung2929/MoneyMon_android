@@ -51,6 +51,7 @@ public class InputTabActivity extends Fragment {
         viewProgress = fragmentInputView.findViewById(R.id.fragment_input_layout);
 
         fragmentInputView.findViewById(R.id.income).setOnClickListener(mOnClickLister);
+        fragmentInputView.findViewById(R.id.spend).setOnClickListener(mOnClickLister);
 
         tvTotalPrice = (TextView) fragmentInputView.findViewById(R.id.total_price);
         retrieve(userInfoBundle.getString("USER_ID"));
@@ -63,7 +64,12 @@ public class InputTabActivity extends Fragment {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.income:
-                    startActivityForResult(new Intent(getActivity(), IncomeDetailActivity.class),0);
+                    Intent intent = new Intent(getActivity(), IncomeDetailActivity.class);
+                    intent.putExtra("USER_ID", userInfoBundle.getString("USER_ID"));
+                    startActivityForResult(intent,0);
+                    break;
+                case R.id.spend:
+                    startActivityForResult(new Intent(getActivity(), SpendDetailActivity.class),0);
                     break;
             }
         }
@@ -80,14 +86,17 @@ public class InputTabActivity extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        retrieve(userInfoBundle.getString("USER_ID"));
+        /*
         switch (resultCode) {
             case RESULT_OK:
-                Toast.makeText(getContext(), "ComeBack Success", Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), "ComeBack Success", Toast.LENGTH_SHORT);
                 break;
             default:
                 Toast.makeText(getContext(), "ComeBack Failure", Toast.LENGTH_SHORT);
                 break;
         }
+        */
     }
 
     private class InputTask
@@ -127,8 +136,15 @@ public class InputTabActivity extends Fragment {
 
             if (success) {
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
-                String formattedTotalPriceValue = decimalFormat.format(inputData.getTotalPrice());
-                tvTotalPrice.setText(String.valueOf(formattedTotalPriceValue));
+                String totalPrice = inputData.getTotalPrice();
+                if (totalPrice.contains("-")) {
+                    String formattedTotalPriceValue = decimalFormat.format(Integer.parseInt(totalPrice.replace("-","")));
+                    tvTotalPrice.setText("-" + String.valueOf(formattedTotalPriceValue));
+                }else{
+                    String formattedTotalPriceValue = decimalFormat.format(Integer.parseInt(inputData.getTotalPrice()));
+                    tvTotalPrice.setText(String.valueOf(formattedTotalPriceValue));
+                }
+
             } else {
                 tvTotalPrice.setText(String.valueOf(0));
 

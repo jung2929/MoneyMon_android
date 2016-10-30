@@ -9,7 +9,7 @@ import org.json.JSONException;
 
 public class ListRetrieveDetailDTO {
     private String inputDate;
-    private Integer inputPrice;
+    private Integer inputPc;
     private String inputIem;
     private String inputCategory;
     private String inputMemo;
@@ -29,12 +29,12 @@ public class ListRetrieveDetailDTO {
         this.inputDate = inputDate;
     }
 
-    public Integer getInputPrice() {
-        return inputPrice;
+    public Integer getInputPc() {
+        return inputPc;
     }
 
-    public void setInputPrice(Integer inputPrice) {
-        this.inputPrice = inputPrice;
+    public void setInputPc(Integer inputPc) {
+        this.inputPc = inputPc;
     }
 
     public String getInputIem() {

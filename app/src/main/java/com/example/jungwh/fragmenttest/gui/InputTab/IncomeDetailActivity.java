@@ -1,7 +1,9 @@
 package com.example.jungwh.fragmenttest.gui.InputTab;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -17,7 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jungwh.fragmenttest.R;
+import com.example.jungwh.fragmenttest.business.logic.IncomeRegisterService;
+import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
+import com.example.jungwh.fragmenttest.util.ExceptionHelper;
+import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,10 +37,13 @@ import java.util.Locale;
  */
 
 public class IncomeDetailActivity extends AppCompatActivity {
+    private IncomeRegisterTask authTask = null;
+    private View viewProgress, viewInputDetailForm;
     // 세자리로 끊어서 쉼표 보여주고, 소숫점 셋째짜리까지 보여준다.
     private DecimalFormat mDecimalFormat = new DecimalFormat("###,###.####");
     // 값 셋팅시, StackOverFlow를 막기 위해서, 바뀐 변수를 저장해준다.
     private String mResult ="";
+    private String userId;
     private DatePickerDialog mDatePickerDialog;
     EditText etIncomeDate, etIncomePrice, etIncomeContents, etIncomeMemo;
     Spinner spCategoryContents;
@@ -41,8 +53,14 @@ public class IncomeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.income_detail);
 
+        // 사용자 아이디
+        userId = getIntent().getExtras().getString("USER_ID");
+
         setTitle("수입내역 입력");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewInputDetailForm = findViewById(R.id.income_detail_form);
+        viewProgress = findViewById(R.id.income_detail_layout);
 
         // 일자
         etIncomeDate = (EditText) findViewById(R.id.income_date);
@@ -132,11 +150,18 @@ public class IncomeDetailActivity extends AppCompatActivity {
     };
 
     public void saveData(){
-        String a = etIncomeDate.getText().toString();
-        String b = etIncomePrice.getText().toString();
-        String c = etIncomeContents.getText().toString();
-        String d = etIncomeMemo.getText().toString();
-        String e = spCategoryContents.getSelectedItem().toString();
+        String incomeDate = etIncomeDate.getText().toString().replace("-","");
+        String incomePrice = etIncomePrice.getText().toString().replace(",","");
+        String incomeContents = etIncomeContents.getText().toString();
+        String incomeMemo = etIncomeMemo.getText().toString();
+        String incomeCategory = spCategoryContents.getSelectedItem().toString();
+
+        if (authTask != null) {
+            return;
+        }
+
+        authTask = new IncomeRegisterTask(getApplicationContext() , incomeDate, incomePrice, incomeContents, incomeMemo, incomeCategory);
+        authTask.execute((Void) null);
     }
 
     @Override
@@ -159,5 +184,64 @@ public class IncomeDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class IncomeRegisterTask
+            extends AsyncTask<Void, Void, Boolean> {
+
+        private final Context context;
+        private final String incomeDate;
+        private final String incomePrice;
+        private final String incomeContents;
+        private final String incomeMemo;
+        private final String incomeCategory;
+        IncomeRegisterService incomeRegisterService = new IncomeRegisterService();
+        private String registerErrMsg;
+
+        IncomeRegisterTask(Context context, String incomeDate, String incomePrice, String incomeContents, String incomeMemo, String incomeCategory) {
+            registerErrMsg = "수입내역 등록에 실패하셨습니다.";
+            this.context = context;
+            this.incomeDate = incomeDate;
+            this.incomePrice = incomePrice;
+            this.incomeContents = incomeContents;
+            this.incomeMemo = incomeMemo;
+            this.incomeCategory = incomeCategory;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewInputDetailForm);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                return incomeRegisterService.register(incomeDate, incomePrice, incomeContents, incomeMemo, incomeCategory, userId);
+            } catch (JSONException | IOException e) {
+                registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            authTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewInputDetailForm);
+
+            if (success) {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(IncomeDetailActivity.this, getString(R.string.help), "수입내역 등록에 성공하셨습니다.", AlertDialogWrapper.DialogButton.OK);
+            } else {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(IncomeDetailActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            authTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewInputDetailForm);
+        }
     }
 }

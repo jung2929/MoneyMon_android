@@ -45,6 +45,27 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateUnspecified">
         </activity>
+        <activity
+            android:name=".gui.InputTab.SpendDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity
+            android:name=".gui.main.IncomeCateEditActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".gui.main.SpendCateEditActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

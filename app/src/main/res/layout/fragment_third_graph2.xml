@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:gravity="center"
+    android:background="#E7CCF4">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart2"
+            android:layout_width="300dp"
+            android:layout_height="230dp"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:background="@color/White"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="예산"
+                android:layout_gravity="left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지출"
+                android:layout_gravity="left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-현금지출"
+                android:layout_gravity="left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-체크카드지출"
+                android:layout_gravity="left"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-신용카드지출"
+                android:layout_gravity="left"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="155dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:hint="@string/Graph_price_hint"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:hint="@string/Graph_price_hint"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:hint="@string/Graph_price_hint"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:hint="@string/Graph_price_hint"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:hint="@string/Graph_price_hint"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

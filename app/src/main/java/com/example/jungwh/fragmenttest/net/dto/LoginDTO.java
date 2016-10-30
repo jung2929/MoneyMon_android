@@ -20,7 +20,7 @@ public class LoginDTO {
         setData(responseJson.getString("data"));
 
         JSONObject jsonObject = responseJson.getJSONObject("data");
-        if(jsonObject.get("result").equals(true)){
+        if(jsonObject.get("RESULT").equals(true)){
             setResult(true);
         }else{
             setResult(false);

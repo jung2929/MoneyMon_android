@@ -11,7 +11,7 @@ import org.json.JSONObject;
 public class InputDTO {
     private String data;
     private String errMsg;
-    private Integer totalPrice;
+    private String totalPrice;
 
     public InputDTO() {}
 
@@ -21,14 +21,14 @@ public class InputDTO {
         setData(responseJson.getString("data"));
 
         JSONArray jsonArray = responseJson.getJSONArray("data");
-        setTotalPrice(Integer.parseInt(jsonArray.getJSONObject(0).getString("TOTAL_PRICE").toString()));
+        setTotalPrice(jsonArray.getJSONObject(0).getString("TOTAL_PRICE").toString());
     }
 
-    public Integer getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
 

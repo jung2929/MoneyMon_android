@@ -81,9 +81,12 @@ public class LoginActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(loginId) || TextUtils.isEmpty(password))
             return;
         Login();
-//        finish();
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        startActivity(intent);
+        /*finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        LoginData loginData = new LoginData();
+        loginData.setLoginId("test");
+        intent.putExtra("LOGIN_DATA", loginData);
+        startActivity(intent);*/
     }
 
     Button.OnClickListener mOnClickListener = new View.OnClickListener() {

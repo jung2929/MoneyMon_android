@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
@@ -28,57 +31,44 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter sectionsPagerAdapter;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
+
     private LoginData loginData;
     private boolean isBackPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loginData = getIntent().getParcelableExtra("LOGIN_DATA");
         setContentView(R.layout.activity_main);
+
+        loginData = getIntent().getParcelableExtra("LOGIN_DATA");
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
+        viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        final String[] colors = getResources().getStringArray(R.array.default_preview);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+    }
 
-        final NavigationTabBar navigationTabBar = (NavigationTabBar) findViewById(R.id.horizontal_ntb);
-        final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
-        models.add(
-                new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.ic_first),
-                        Color.parseColor(colors[0]))
-                        .title(getString(R.string.input_section_title))
-                        .build()
-        );
-        models.add(
-                new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.ic_second),
-                        Color.parseColor(colors[1]))
-                        .title(getString(R.string.second_section_title))
-                        .build()
-        );
-        models.add(
-                new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.ic_third),
-                        Color.parseColor(colors[2]))
-                        .title(getString(R.string.third_section_title))
-                        .build()
-        );
-        navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(viewPager,0);
+    private void setupTabIcons() {
 
-        navigationTabBar.post(new Runnable() {
-            @Override
-            public void run() {
-                final View viewPager = findViewById(R.id.vp_horizontal_ntb);
-                ((ViewGroup.MarginLayoutParams) viewPager.getLayoutParams()).topMargin =
-                        (int) -navigationTabBar.getBadgeMargin();
-                viewPager.requestLayout();
-            }
-        });
+        TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabOne.setText(getString(R.string.input_section_title));
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_compare_arrows_white_24dp, 0, 0);
+        tabLayout.getTabAt(0).setCustomView(tabOne);
+
+        TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setText(getString(R.string.second_section_title));
+        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_monetization_on_white_24dp, 0, 0);
+        tabLayout.getTabAt(1).setCustomView(tabTwo);
+
+        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabThree.setText(getString(R.string.third_section_title));
+        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_equalizer_white_24dp, 0, 0);
+        tabLayout.getTabAt(2).setCustomView(tabThree);
     }
 
     @Override
@@ -132,6 +122,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             }
+            case R.id.income_settings: {
+                Intent intent = new Intent(getApplicationContext(), IncomeCateEditActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.spend_settings: {
+                Intent intent = new Intent(getApplicationContext(), SpendCateEditActivity.class);
+                startActivity(intent);
+                break;
+            }
             default:
                 break;
         }
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }

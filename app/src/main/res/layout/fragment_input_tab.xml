@@ -35,6 +35,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/income_button" />
+
+            <Button
+                android:id="@+id/spend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/income"
+                android:background="@drawable/spend_button" />
         </TableRow>
 
         <TableRow>
