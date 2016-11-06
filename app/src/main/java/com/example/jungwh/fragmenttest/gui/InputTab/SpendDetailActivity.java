@@ -1,7 +1,9 @@
 package com.example.jungwh.fragmenttest.gui.InputTab;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,7 +20,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jungwh.fragmenttest.R;
+import com.example.jungwh.fragmenttest.business.data.CateRetrieveData;
+import com.example.jungwh.fragmenttest.business.logic.CateRetrieveService;
+import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
+import com.example.jungwh.fragmenttest.util.ExceptionHelper;
+import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,19 +39,29 @@ import java.util.Locale;
  */
 
 public class SpendDetailActivity extends AppCompatActivity {
+    private SpendCateRetrieveTask authRetrieveTask;
+    private View viewProgress, viewForm;
     // 세자리로 끊어서 쉼표 보여주고, 소숫점 셋째짜리까지 보여준다.
     private DecimalFormat mDecimalFormat = new DecimalFormat("###,###.####");
     // 값 셋팅시, StackOverFlow를 막기 위해서, 바뀐 변수를 저장해준다.
     private String mResult ="";
+    private String userId;
     private DatePickerDialog mDatePickerDialog;
+    Spinner spCategoryContents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spend_detail);
 
+        // 사용자 아이디
+        userId = getIntent().getExtras().getString("USER_ID");
+
         setTitle("지출내역 입력");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewForm = findViewById(R.id.spend_detail_form);
+        viewProgress = findViewById(R.id.spend_detail_layout);
 
         // 일자
         final EditText etSpendDate = (EditText) findViewById(R.id.spend_date);
@@ -75,7 +96,7 @@ public class SpendDetailActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().equals(mResult)){
+                if(!s.toString().equals(mResult) && s.length() > 3){
                     mResult = mDecimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
                     editTextPrice.setText(mResult);
                     editTextPrice.setSelection(mResult.length());
@@ -87,7 +108,7 @@ public class SpendDetailActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spCategoryContents = (Spinner) findViewById(R.id.spend_category_contents);
+        spCategoryContents = (Spinner) findViewById(R.id.spend_category_contents);
         spCategoryContents.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -101,6 +122,8 @@ public class SpendDetailActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+
+        cateRetrieve();
 
         (findViewById(R.id.spend_okay)).setOnClickListener(mOnClickListener);
         (findViewById(R.id.spend_cancel)).setOnClickListener(mOnClickListener);
@@ -121,6 +144,15 @@ public class SpendDetailActivity extends AppCompatActivity {
 
         }
     };
+
+    public void cateRetrieve(){
+        if (authRetrieveTask != null) {
+            return;
+        }
+
+        authRetrieveTask = new SpendCateRetrieveTask(getApplicationContext() , userId);
+        authRetrieveTask.execute((Void) null);
+    }
 
     public void saveData(){
 
@@ -146,5 +178,56 @@ public class SpendDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class SpendCateRetrieveTask extends AsyncTask<Void, Void, Boolean> {
+        private final Context context;
+        private final String userId;
+        CateRetrieveService cateRetrieveService = new CateRetrieveService();
+        CateRetrieveData cateRetrieveData = new CateRetrieveData();
+        private String retrieveErrMsg;
+
+        SpendCateRetrieveTask(Context context, String userId) {
+            retrieveErrMsg = "카테고리부터 등록해주세요.";
+            this.context = context;
+            this.userId = userId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewForm);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                cateRetrieveData = cateRetrieveService.retrieve(userId, "002");
+                return cateRetrieveData.getCateList().size() > 0;
+            } catch (JSONException | IOException e) {
+                retrieveErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            authRetrieveTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+
+            if (success) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, cateRetrieveData.getCateList());
+                spCategoryContents.setAdapter(arrayAdapter);
+            } else {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(context, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            authRetrieveTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+        }
     }
 }

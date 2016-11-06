@@ -1,7 +1,6 @@
 package com.example.jungwh.fragmenttest.gui.main;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -13,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +21,6 @@ import com.example.jungwh.fragmenttest.business.logic.LoginService;
 import com.example.jungwh.fragmenttest.gui.InputTab.InputTabActivity;
 import com.example.jungwh.fragmenttest.gui.secondTab.SecondTabActivity;
 import com.example.jungwh.fragmenttest.gui.ThirdTab.ThirdTabActivity;
-import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter sectionsPagerAdapter;
@@ -124,11 +118,13 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.income_settings: {
                 Intent intent = new Intent(getApplicationContext(), IncomeCateEditActivity.class);
+                intent.putExtra("USER_ID", loginData.getLoginId());
                 startActivity(intent);
                 break;
             }
             case R.id.spend_settings: {
                 Intent intent = new Intent(getApplicationContext(), SpendCateEditActivity.class);
+                intent.putExtra("USER_ID", loginData.getLoginId());
                 startActivity(intent);
                 break;
             }

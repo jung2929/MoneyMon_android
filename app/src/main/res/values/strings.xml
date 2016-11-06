@@ -57,12 +57,6 @@
     <string name="retrieve">조회</string>
     <string name="retrieveString">조회날짜</string>
 
-    <string-array name="income_category_contents">
-        <item >급여</item>
-        <item >보너스</item>
-        <item >이자</item>
-        <item >기타</item>
-    </string-array>
     <string-array name="spend_method_contents">
         <item >현금</item>
         <item >신한카드</item>

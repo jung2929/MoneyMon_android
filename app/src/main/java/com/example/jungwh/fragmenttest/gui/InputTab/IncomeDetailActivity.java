@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,7 +30,9 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -95,7 +98,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!s.toString().equals(mResult)){
+                if(!s.toString().equals(mResult) && s.length() > 3){
                     mResult = mDecimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
                     etIncomePrice.setText(mResult);
                     etIncomePrice.setSelection(mResult.length());
@@ -129,6 +132,14 @@ public class IncomeDetailActivity extends AppCompatActivity {
             }
         });
 
+        ArrayList<String> test = new ArrayList<>();
+        test.add("a");
+        test.add("b");
+        test.add("c");
+        test.add("d");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, test);
+        spCategoryContents.setAdapter(arrayAdapter);
+
         (findViewById(R.id.income_okay)).setOnClickListener(mOnClickListener);
         (findViewById(R.id.income_cancel)).setOnClickListener(mOnClickListener);
     }
@@ -150,15 +161,15 @@ public class IncomeDetailActivity extends AppCompatActivity {
     };
 
     public void saveData(){
+        if (authTask != null) {
+            return;
+        }
+
         String incomeDate = etIncomeDate.getText().toString().replace("-","");
         String incomePrice = etIncomePrice.getText().toString().replace(",","");
         String incomeContents = etIncomeContents.getText().toString();
         String incomeMemo = etIncomeMemo.getText().toString();
         String incomeCategory = spCategoryContents.getSelectedItem().toString();
-
-        if (authTask != null) {
-            return;
-        }
 
         authTask = new IncomeRegisterTask(getApplicationContext() , incomeDate, incomePrice, incomeContents, incomeMemo, incomeCategory);
         authTask.execute((Void) null);

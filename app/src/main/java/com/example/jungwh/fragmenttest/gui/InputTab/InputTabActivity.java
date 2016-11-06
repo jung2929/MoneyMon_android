@@ -64,12 +64,14 @@ public class InputTabActivity extends Fragment {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.income:
-                    Intent intent = new Intent(getActivity(), IncomeDetailActivity.class);
-                    intent.putExtra("USER_ID", userInfoBundle.getString("USER_ID"));
-                    startActivityForResult(intent,0);
+                    Intent incomeIntent = new Intent(getActivity(), IncomeDetailActivity.class);
+                    incomeIntent.putExtra("USER_ID", userInfoBundle.getString("USER_ID"));
+                    startActivityForResult(incomeIntent,0);
                     break;
                 case R.id.spend:
-                    startActivityForResult(new Intent(getActivity(), SpendDetailActivity.class),0);
+                    Intent spendIntent = new Intent(getActivity(), SpendDetailActivity.class);
+                    spendIntent.putExtra("USER_ID", userInfoBundle.getString("USER_ID"));
+                    startActivityForResult(spendIntent,0);
                     break;
             }
         }

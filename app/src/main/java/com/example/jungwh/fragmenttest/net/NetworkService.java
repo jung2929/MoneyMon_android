@@ -57,4 +57,18 @@ public class NetworkService {
             return response.isSuccessful();
         }
     }
+
+    public Boolean doDeleteRequest(HttpUrl url, RequestBody requestBody) throws IOException {
+        request = new Request.Builder()
+                .url(url)
+                .delete(requestBody)
+                .build();
+        try {
+            response = client.newCall(request).execute();
+            return response.isSuccessful();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return response.isSuccessful();
+        }
+    }
 }
