@@ -99,7 +99,7 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
             return;
         }
 
-        if (mAlData.contains(data)){
+        if (mAlData != null && mAlData.contains(data)){
             authRegisterTask= null;
             Toast.makeText(this, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -160,8 +160,8 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
     private class SpendCateRetrieveTask extends AsyncTask<Void, Void, Boolean> {
         private final Context context;
         private final String userId;
-        CateRetrieveService cateRetrieveService = new CateRetrieveService();
-        CateRetrieveData cateRetrieveData = new CateRetrieveData();
+        private CateRetrieveService cateRetrieveService = new CateRetrieveService();
+        private CateRetrieveData cateRetrieveData = new CateRetrieveData();
         private String retrieveErrMsg;
 
         SpendCateRetrieveTask(Context context, String userId) {
@@ -199,8 +199,9 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
                 // 어뎁터를 리스트뷰에 세팅한다.
                 mLvList.setAdapter(mAaString);
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, retrieveErrMsg, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -246,10 +247,12 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
             ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
 
             if (success) {
+                mEtInputText.setText("");
                 Toast.makeText(context, "데이터가 추가되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, registerErrMsg, Toast.LENGTH_SHORT).show();
             }
             defaultData();
         }
@@ -265,10 +268,10 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
         private final Context context;
         private final String userId, data;
         CateRetrieveService cateRetrieveService = new CateRetrieveService();
-        private String registerErrMsg;
+        private String deleteErrMsg;
 
         SpendCateDeleteTask(Context context, String userId, String data) {
-            registerErrMsg = "카테고리 삭제에 실패하였습니다.";
+            deleteErrMsg = "카테고리 삭제에 실패하였습니다.";
             this.context = context;
             this.userId = userId;
             this.data = data;
@@ -285,7 +288,7 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
             try {
                 return cateRetrieveService.delete(userId, "002", data);
             } catch (JSONException | IOException e) {
-                registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                deleteErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
                 return false;
             }
         }
@@ -298,8 +301,9 @@ public class SpendCateEditActivity extends AppCompatActivity implements AdapterV
             if (success) {
                 Toast.makeText(context, "데이터가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(SpendCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, deleteErrMsg, Toast.LENGTH_SHORT).show();
             }
             defaultData();
         }

@@ -98,7 +98,7 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
             return;
         }
 
-        if (mAlData.contains(data)){
+        if (mAlData != null && mAlData.contains(data)){
             authRegisterTask= null;
             Toast.makeText(this, "이미 존재하는 카테고리입니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -198,8 +198,9 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
                 // 어뎁터를 리스트뷰에 세팅한다.
                 mLvList.setAdapter(mAaString);
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, retrieveErrMsg, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -245,10 +246,12 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
             ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
 
             if (success) {
+                mEtInputText.setText("");
                 Toast.makeText(context, "데이터가 추가되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, registerErrMsg, Toast.LENGTH_SHORT).show();
             }
             defaultData();
         }
@@ -264,10 +267,10 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
         private final Context context;
         private final String userId, data;
         CateRetrieveService cateRetrieveService = new CateRetrieveService();
-        private String registerErrMsg;
+        private String deleteErrMsg;
 
         IncomeCateDeleteTask(Context context, String userId, String data) {
-            registerErrMsg = "카테고리 삭제에 실패하였습니다.";
+            deleteErrMsg = "카테고리 삭제에 실패하였습니다.";
             this.context = context;
             this.userId = userId;
             this.data = data;
@@ -284,7 +287,7 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
             try {
                 return cateRetrieveService.delete(userId, "001", data);
             } catch (JSONException | IOException e) {
-                registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                deleteErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
                 return false;
             }
         }
@@ -297,8 +300,9 @@ public class IncomeCateEditActivity extends AppCompatActivity implements Adapter
             if (success) {
                 Toast.makeText(context, "데이터가 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+                //AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                //alertDialogWrapper.showAlertDialog(IncomeCateEditActivity.this, getString(R.string.help), deleteErrMsg, AlertDialogWrapper.DialogButton.OK);
+                Toast.makeText(context, deleteErrMsg, Toast.LENGTH_SHORT).show();
             }
             defaultData();
         }

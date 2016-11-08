@@ -71,12 +71,6 @@
         <item >IBK기업은행</item>
         <item >기타</item>
     </string-array>
-    <string-array name="spend_category_contents">
-        <item>식비</item>
-        <item>쇼핑</item>
-        <item>교통비</item>
-        <item>휴대폰요금</item>
-    </string-array>
 
     <!-- 그래프 화면 -->
     <string name="Graph_price_hint">\ 10,000</string>

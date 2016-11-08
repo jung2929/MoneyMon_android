@@ -114,8 +114,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_marginLeft="10dp"
-                android:spinnerMode="dropdown"
-                android:entries="@array/spend_category_contents">
+                android:spinnerMode="dropdown">
             </Spinner>
         </TableRow>
         <TableRow

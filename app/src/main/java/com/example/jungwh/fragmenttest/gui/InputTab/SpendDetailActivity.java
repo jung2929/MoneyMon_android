@@ -220,7 +220,7 @@ public class SpendDetailActivity extends AppCompatActivity {
                 spCategoryContents.setAdapter(arrayAdapter);
             } else {
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
-                alertDialogWrapper.showAlertDialog(context, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+                alertDialogWrapper.showAlertDialog(SpendDetailActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
             }
         }
 
