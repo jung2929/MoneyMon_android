@@ -297,6 +297,11 @@ public class IncomeDetailActivity extends AppCompatActivity {
             ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
 
             if (success) {
+                etIncomeDate.setText("");
+                etIncomePrice.setText("");
+                etIncomeContents.setText("");
+                etIncomeMemo.setText("");
+
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
                 alertDialogWrapper.showAlertDialog(IncomeDetailActivity.this, getString(R.string.help), "수입내역 등록에 성공하셨습니다.", AlertDialogWrapper.DialogButton.OK);
             } else {

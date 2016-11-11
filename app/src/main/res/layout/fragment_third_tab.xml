@@ -11,25 +11,25 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/btn0"
-            android:background="@drawable/button_state"
+            android:background="#CCDAF4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="순자산"/>
+            android:text="전년 대비"/>
         <Button
             android:id="@+id/btn1"
-            android:background="@drawable/button_state"
+            android:background="#EFF4CC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="수입"/>
+            android:text="카테고리 별"/>
         <Button
             android:id="@+id/btn2"
-            android:background="@drawable/button_state"
+            android:background="#E7CCF4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="지출"/>
+            android:text="예산 비교"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -37,5 +37,4 @@
         android:id="@+id/fragment_place"
         android:name="com.example.jungwh.fragmenttest.gui.ThirdTab.GraphInfoActivity"
         android:orientation="vertical"/>
-
 </LinearLayout>

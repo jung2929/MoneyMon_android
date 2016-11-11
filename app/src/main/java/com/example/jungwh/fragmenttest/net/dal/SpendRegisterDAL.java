@@ -21,7 +21,7 @@ public class SpendRegisterDAL {
 
     public SpendRegisterDAL()  { networkService = new NetworkService(); }
 
-    public Boolean register(String spendDate, String spendPrice, String spendContents, String spendCategory, String spendMemo, String spendMethodContents, String userId) throws IOException, JSONException {
+    public Boolean register(String spendDate, String spendPrice, String spendContents, String spendMemo, String spendCategory, String spendMethodContents, String userId) throws IOException, JSONException {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")

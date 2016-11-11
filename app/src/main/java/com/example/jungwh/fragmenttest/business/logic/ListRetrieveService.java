@@ -39,6 +39,7 @@ public class ListRetrieveService {
             listRetrieveDetailDTO.setInputIem(jsonObject.getString("INPUT_IEM"));
             listRetrieveDetailDTO.setInputCategory(jsonObject.getString("INPUT_CATEGORY"));
             listRetrieveDetailDTO.setInputMemo(jsonObject.getString("INPUT_MEMO"));
+            listRetrieveDetailDTO.setInputMethodContents(jsonObject.getString("INPUT_METHOD_CONTENTS"));
             listRetrieveDetailDTOs.add(listRetrieveDetailDTO);
         }
 

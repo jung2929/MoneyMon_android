@@ -50,9 +50,10 @@
     <string name="priceString">금액</string>
     <string name="toalPriceString">총 금액</string>
     <string name="countString">수량</string>
-    <string name="iemString">항목 :</string>
-    <string name="categoryString">분류 :</string>
-    <string name="memoString">메모 :</string>
+    <string name="iemString">지출내역 :</string>
+    <string name="categoryString">카테고리 :</string>
+    <string name="memoString">지출메모 :</string>
+    <string name="methodContentsString">지출수단 :</string>
     <string name="wonString">원</string>
     <string name="retrieve">조회</string>
     <string name="retrieveString">조회날짜</string>

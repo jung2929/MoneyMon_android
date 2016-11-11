@@ -316,6 +316,11 @@ public class SpendDetailActivity extends AppCompatActivity {
             ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
 
             if (success) {
+                etSpendDate.setText("");
+                etSpendPrice.setText("");
+                etSpendContents.setText("");
+                etSpendMemo.setText("");
+
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
                 alertDialogWrapper.showAlertDialog(SpendDetailActivity.this, getString(R.string.help), "지출내역 등록에 성공하셨습니다.", AlertDialogWrapper.DialogButton.OK);
             } else {

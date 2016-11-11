@@ -13,13 +13,9 @@ public class ListRetrieveDetailDTO {
     private String inputIem;
     private String inputCategory;
     private String inputMemo;
+    private String inputMethodContents;
 
     public ListRetrieveDetailDTO() {}
-
-    public ListRetrieveDetailDTO(JSONArray responseJson)
-            throws JSONException {
-
-    }
 
     public String getInputDate() {
         return inputDate;
@@ -59,5 +55,13 @@ public class ListRetrieveDetailDTO {
 
     public void setInputMemo(String inputMemo) {
         this.inputMemo = inputMemo;
+    }
+
+    public String getInputMethodContents() {
+        return inputMethodContents;
+    }
+
+    public void setInputMethodContents(String inputMethodContents) {
+        this.inputMethodContents = inputMethodContents;
     }
 }

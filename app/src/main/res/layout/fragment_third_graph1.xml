@@ -3,16 +3,35 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:gravity="center"
     android:background="#EFF4CC">
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/spinner1"
+
+        android:entries="@array/months"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/graph1_tv1"
+        android:text="월 선택"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+       />
+sm
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/White"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="10dp">
 
-        <com.github.mikephil.charting.charts.CombinedChart
+        <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart1"
             android:layout_width="300dp"
             android:layout_height="230dp"
@@ -26,7 +45,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:background="@color/White"
-        android:padding="10dp">
+        android:padding="3dp">
 
         <LinearLayout
             android:layout_width="155dp"
@@ -36,27 +55,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="수입"
+                android:text="식비"
                 android:layout_gravity="left"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="빠져나간돈"
+                android:text="교통비"
                 android:layout_gravity="left"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-현금지출"
+                android:text="통신비"
                 android:layout_gravity="left"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-체크카드지출"
-                android:layout_gravity="left"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-신용카드지출"
+                android:text="문화생활비"
                 android:layout_gravity="left"/>
         </LinearLayout>
         <LinearLayout
@@ -68,31 +82,26 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_gravity="right"
-                android:hint="@string/Graph_price_hint"/>
+                android:text="126,900"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_gravity="right"
-                android:hint="@string/Graph_price_hint"/>
+                android:text="78,960"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_gravity="right"
-                android:hint="@string/Graph_price_hint"/>
+                android:hint="50,760"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_gravity="right"
-                android:hint="@string/Graph_price_hint"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:hint="@string/Graph_price_hint"/>
+                android:hint="25,380"/>
         </LinearLayout>
 
     </LinearLayout>

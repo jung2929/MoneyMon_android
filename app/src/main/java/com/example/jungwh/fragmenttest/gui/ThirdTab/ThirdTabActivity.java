@@ -3,18 +3,25 @@ package com.example.jungwh.fragmenttest.gui.ThirdTab;
 import android.annotation.SuppressLint;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.support.v4.app.FragmentManager;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
+
+import static android.R.style.Animation;
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by jungwh on 2016-09-26.
@@ -25,6 +32,7 @@ public class ThirdTabActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_third_tab, container,false );
 
         Fragment fr =  new GraphInfoActivity();
@@ -61,6 +69,7 @@ public class ThirdTabActivity extends Fragment {
         return view;
     }
 
+
     public void selectFrag(View view){
         Fragment fr;
         if(view == view.findViewById(R.id.btn2)){
@@ -71,6 +80,14 @@ public class ThirdTabActivity extends Fragment {
             fr = new GraphInfoActivity1();
         }
         FragmentManager fm = getFragmentManager();
+           /*
+        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if(getFragmentManager().getBackStackEntryCount() == 0) finish(this);
+            }
+        });*/
+
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_place, fr);
         // fragmentTransaction.replace(R.id.contianer_replace, fr);
@@ -79,33 +96,12 @@ public class ThirdTabActivity extends Fragment {
         fragmentTransaction.commit();
 
     }
-}
-
-
-/*
-package com.example.jungwh.fragmenttest.gui.ThirdTab;
-
-import android.annotation.SuppressLint;
-
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.jungwh.fragmenttest.R;
-
-*/
-/**
- * Created by jungwh on 2016-09-26.
- *//*
-
-
-@SuppressLint("ValidFragment")
-public class ThirdTabActivity extends Fragment {
-    @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        return layoutInflater.inflate(R.layout.fragment_third_tab, viewGroup, false);
+    public android.view.animation.Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if(!enter){
+            //leaving fragment
+            Log.d(TAG,"leaving fragment");
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
+
 }
-*/

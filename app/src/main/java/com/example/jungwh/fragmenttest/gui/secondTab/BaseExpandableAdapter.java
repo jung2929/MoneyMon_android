@@ -103,11 +103,11 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         else
             convertView.setBackgroundColor(parent.getResources().getColor(R.color.lv_alternating_row_light));
 
-        // 분류
+        //지출내역
         TextView tvIemValue = (TextView) convertView.findViewById(R.id.childIemValue);
         tvIemValue.setText(listRetrieveDetailDatas.get(childPosition).getInputIem());
 
-        // 항목
+        //카테고리
         TextView tvCategoryValue = (TextView) convertView.findViewById(R.id.childCategoryValue);
         tvCategoryValue.setText(listRetrieveDetailDatas.get(childPosition).getInputCategory());
 
@@ -116,8 +116,13 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
         String formattedPrice = decimalFormat.format(listRetrieveDetailDatas.get(childPosition).getInputPc());
         tvPriceValue.setText(String.valueOf(formattedPrice));
 
+        //지출메모
         TextView tvMemoValue = (TextView) convertView.findViewById(R.id.childMemoValue);
         tvMemoValue.setText(listRetrieveDetailDatas.get(childPosition).getInputMemo());
+
+        //지출수단
+        TextView tvMethodContentsValue = (TextView) convertView.findViewById(R.id.childMethodContentsValue);
+        tvMethodContentsValue.setText(listRetrieveDetailDatas.get(childPosition).getInputMethodContents());
 
         return convertView;
     }

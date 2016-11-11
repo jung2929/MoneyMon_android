@@ -15,6 +15,7 @@ public class ListRetrieveDetailData implements Parcelable{
     private String inputIem;
     private String inputCategory;
     private String inputMemo;
+    private String inputMethodContents;
 
     public ListRetrieveDetailData (ListRetrieveDetailDTO DTO) {
         setInputDate(DTO.getInputDate());
@@ -22,14 +23,29 @@ public class ListRetrieveDetailData implements Parcelable{
         setInputIem(DTO.getInputIem());
         setInputCategory(DTO.getInputCategory());
         setInputMemo(DTO.getInputMemo());
+        setInputMethodContents(DTO.getInputMethodContents());
     }
 
     protected ListRetrieveDetailData(Parcel in) {
         inputDate = in.readString();
-        inputPc = in.readInt();
         inputIem = in.readString();
         inputCategory = in.readString();
         inputMemo = in.readString();
+        inputMethodContents = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(inputDate);
+        dest.writeString(inputIem);
+        dest.writeString(inputCategory);
+        dest.writeString(inputMemo);
+        dest.writeString(inputMethodContents);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ListRetrieveDetailData> CREATOR = new Creator<ListRetrieveDetailData>() {
@@ -43,20 +59,6 @@ public class ListRetrieveDetailData implements Parcelable{
             return new ListRetrieveDetailData[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(inputDate);
-        dest.writeInt(inputPc);
-        dest.writeString(inputIem);
-        dest.writeString(inputCategory);
-        dest.writeString(inputMemo);
-    }
 
     public String getInputDate() {
         return inputDate;
@@ -96,5 +98,13 @@ public class ListRetrieveDetailData implements Parcelable{
 
     public void setInputMemo(String inputMemo) {
         this.inputMemo = inputMemo;
+    }
+
+    public String getInputMethodContents() {
+        return inputMethodContents;
+    }
+
+    public void setInputMethodContents(String inputMethodContents) {
+        this.inputMethodContents = inputMethodContents;
     }
 }

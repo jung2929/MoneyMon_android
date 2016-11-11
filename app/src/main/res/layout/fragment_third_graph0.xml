@@ -3,17 +3,60 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:gravity="center"
     android:background="#CCDAF4"
   >
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/spinner0"
+        android:entries="@array/months"/>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/spinner1"
+        android:entries="@array/category"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/graph1_tv0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/graph1_tv1"
+        android:text="카테고리 선택"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+       />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/White"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="10dp">
 
-    <com.github.mikephil.charting.charts.LineChart
+    <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/chart0"
         android:layout_width="300dp"
         android:layout_height="230dp"
@@ -22,81 +65,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:background="@color/White"
-        android:padding="10dp">
+        android:padding="2dp">
 
-    <LinearLayout
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="순자산"
-            android:layout_gravity="left"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="자산"
-            android:layout_gravity="left"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="신용카드"
-            android:layout_gravity="left"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-신용카드사용"
-            android:layout_gravity="left"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-현금서비스"
-            android:layout_gravity="left"/>
-
-
-
-    </LinearLayout>
-     <LinearLayout
-         android:layout_width="155dp"
-         android:layout_height="wrap_content"
-         android:orientation="vertical">
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="right"
-             android:layout_gravity="right"
-             android:hint="@string/Graph_price_hint"/>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="right"
-             android:layout_gravity="right"
-             android:hint="@string/Graph_price_hint"/>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="right"
-             android:layout_gravity="right"/>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="right"
-             android:layout_gravity="right"
-             android:hint="@string/Graph_price_hint"/>
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:gravity="right"
-             android:layout_gravity="right"
-             android:hint="@string/Graph_price_hint"/>
-     </LinearLayout>
-
+            android:id="@+id/graph0_tv0"
+            android:text="2015년 11월 대비 식비 지출이 14,000원(5%) 증가했습니다. 말일이 다가오는 오늘! 퇴근하고 저녁밥은 집에서 어떠세요?"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

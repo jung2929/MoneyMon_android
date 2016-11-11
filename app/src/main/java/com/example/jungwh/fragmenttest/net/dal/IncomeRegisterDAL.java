@@ -21,7 +21,7 @@ public class IncomeRegisterDAL {
 
     public IncomeRegisterDAL()  { networkService = new NetworkService(); }
 
-    public Boolean register(String incomeDate, String incomePrice, String incomeContents, String incomeCategory, String incomeMemo, String userId) throws IOException, JSONException {
+    public Boolean register(String incomeDate, String incomePrice, String incomeContents, String incomeMemo, String incomeCategory, String userId) throws IOException, JSONException {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host("10.0.2.2")
