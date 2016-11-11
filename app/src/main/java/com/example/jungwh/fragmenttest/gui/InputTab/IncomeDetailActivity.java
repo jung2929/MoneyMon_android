@@ -20,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jungwh.fragmenttest.R;
+import com.example.jungwh.fragmenttest.business.data.CateRetrieveData;
+import com.example.jungwh.fragmenttest.business.logic.CateRetrieveService;
 import com.example.jungwh.fragmenttest.business.logic.IncomeRegisterService;
 import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
@@ -32,7 +34,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -41,7 +42,8 @@ import java.util.Locale;
 
 public class IncomeDetailActivity extends AppCompatActivity {
     private IncomeRegisterTask authTask = null;
-    private View viewProgress, viewInputDetailForm;
+    private IncomeCateRetrieveTask authRetrieveTask = null;
+    private View viewProgress, viewForm;
     // 세자리로 끊어서 쉼표 보여주고, 소숫점 셋째짜리까지 보여준다.
     private DecimalFormat mDecimalFormat = new DecimalFormat("###,###.####");
     // 값 셋팅시, StackOverFlow를 막기 위해서, 바뀐 변수를 저장해준다.
@@ -62,7 +64,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         setTitle("수입내역 입력");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewInputDetailForm = findViewById(R.id.income_detail_form);
+        viewForm = findViewById(R.id.income_detail_form);
         viewProgress = findViewById(R.id.income_detail_layout);
 
         // 일자
@@ -132,13 +134,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> test = new ArrayList<>();
-        test.add("a");
-        test.add("b");
-        test.add("c");
-        test.add("d");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, test);
-        spCategoryContents.setAdapter(arrayAdapter);
+        cateRetrieve();
 
         (findViewById(R.id.income_okay)).setOnClickListener(mOnClickListener);
         (findViewById(R.id.income_cancel)).setOnClickListener(mOnClickListener);
@@ -159,6 +155,15 @@ public class IncomeDetailActivity extends AppCompatActivity {
 
         }
     };
+
+    public void cateRetrieve(){
+        if (authRetrieveTask != null) {
+            return;
+        }
+
+        authRetrieveTask = new IncomeCateRetrieveTask(getApplicationContext() , userId);
+        authRetrieveTask.execute((Void) null);
+    }
 
     public void saveData(){
         if (authTask != null) {
@@ -197,6 +202,57 @@ public class IncomeDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class IncomeCateRetrieveTask extends AsyncTask<Void, Void, Boolean> {
+        private final Context context;
+        private final String userId;
+        CateRetrieveService cateRetrieveService = new CateRetrieveService();
+        CateRetrieveData cateRetrieveData = new CateRetrieveData();
+        private String retrieveErrMsg;
+
+        IncomeCateRetrieveTask(Context context, String userId) {
+            retrieveErrMsg = "카테고리부터 등록해주세요.";
+            this.context = context;
+            this.userId = userId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewForm);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                cateRetrieveData = cateRetrieveService.retrieve(userId, "001");
+                return cateRetrieveData.getCateList().size() > 0;
+            } catch (JSONException | IOException e) {
+                retrieveErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            authRetrieveTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+
+            if (success) {
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, cateRetrieveData.getCateList());
+                spCategoryContents.setAdapter(arrayAdapter);
+            } else {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(IncomeDetailActivity.this, getString(R.string.help), retrieveErrMsg, AlertDialogWrapper.DialogButton.OK);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            authRetrieveTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+        }
+    }
+
     private class IncomeRegisterTask
             extends AsyncTask<Void, Void, Boolean> {
 
@@ -222,7 +278,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            ShowProgressHelper.showProgress(context, true, viewProgress, viewInputDetailForm);
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewForm);
         }
 
         @Override
@@ -238,7 +294,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             authTask = null;
-            ShowProgressHelper.showProgress(context, false, viewProgress, viewInputDetailForm);
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
 
             if (success) {
                 AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
@@ -252,7 +308,7 @@ public class IncomeDetailActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             authTask = null;
-            ShowProgressHelper.showProgress(context, false, viewProgress, viewInputDetailForm);
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
         }
     }
 }

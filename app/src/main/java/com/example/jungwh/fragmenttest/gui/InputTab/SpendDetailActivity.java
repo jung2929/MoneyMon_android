@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.CateRetrieveData;
 import com.example.jungwh.fragmenttest.business.logic.CateRetrieveService;
+import com.example.jungwh.fragmenttest.business.logic.SpendRegisterService;
 import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
 import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
@@ -39,7 +40,8 @@ import java.util.Locale;
  */
 
 public class SpendDetailActivity extends AppCompatActivity {
-    private SpendCateRetrieveTask authRetrieveTask;
+    private SpendRegisterTask authTask = null;
+    private SpendCateRetrieveTask authRetrieveTask = null;
     private View viewProgress, viewForm;
     // 세자리로 끊어서 쉼표 보여주고, 소숫점 셋째짜리까지 보여준다.
     private DecimalFormat mDecimalFormat = new DecimalFormat("###,###.####");
@@ -47,7 +49,8 @@ public class SpendDetailActivity extends AppCompatActivity {
     private String mResult ="";
     private String userId;
     private DatePickerDialog mDatePickerDialog;
-    Spinner spCategoryContents;
+    EditText etSpendDate, etSpendPrice, etSpendContents, etSpendMemo;
+    Spinner spCategoryContents, spMethodContents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class SpendDetailActivity extends AppCompatActivity {
         viewProgress = findViewById(R.id.spend_detail_layout);
 
         // 일자
-        final EditText etSpendDate = (EditText) findViewById(R.id.spend_date);
+        etSpendDate = (EditText) findViewById(R.id.spend_date);
 
         // 일자 포멧팅
         Calendar newCalendar = Calendar.getInstance();
@@ -88,8 +91,8 @@ public class SpendDetailActivity extends AppCompatActivity {
         });
 
         // 가격
-        final EditText editTextPrice = (EditText) findViewById(R.id.spend_price);
-        editTextPrice.addTextChangedListener(new TextWatcher() {
+        etSpendPrice = (EditText) findViewById(R.id.spend_price);
+        etSpendPrice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -98,8 +101,8 @@ public class SpendDetailActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals(mResult) && s.length() > 3){
                     mResult = mDecimalFormat.format(Long.parseLong(s.toString().replaceAll(",", "")));
-                    editTextPrice.setText(mResult);
-                    editTextPrice.setSelection(mResult.length());
+                    etSpendPrice.setText(mResult);
+                    etSpendPrice.setSelection(mResult.length());
                 }
             }
 
@@ -108,6 +111,13 @@ public class SpendDetailActivity extends AppCompatActivity {
             }
         });
 
+        // 내역
+        etSpendContents = (EditText) findViewById(R.id.spend_contents);
+
+        // 내용
+        etSpendMemo = (EditText) findViewById(R.id.spend_memo);
+
+        //카테고리
         spCategoryContents = (Spinner) findViewById(R.id.spend_category_contents);
         spCategoryContents.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -124,6 +134,22 @@ public class SpendDetailActivity extends AppCompatActivity {
         });
 
         cateRetrieve();
+
+        //지출수단
+        spMethodContents = (Spinner) findViewById(R.id.spend_method_contents);
+        spMethodContents.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
         (findViewById(R.id.spend_okay)).setOnClickListener(mOnClickListener);
         (findViewById(R.id.spend_cancel)).setOnClickListener(mOnClickListener);
@@ -155,7 +181,19 @@ public class SpendDetailActivity extends AppCompatActivity {
     }
 
     public void saveData(){
+        if (authTask != null) {
+            return;
+        }
 
+        String spendDate = etSpendDate.getText().toString().replace("-","");
+        String spendPrice = etSpendPrice.getText().toString().replace(",","");
+        String spendContents = etSpendContents.getText().toString();
+        String spendMemo = etSpendMemo.getText().toString();
+        String spendCategory = spCategoryContents.getSelectedItem().toString();
+        String spendMethodCategory = spMethodContents.getSelectedItem().toString();
+
+        authTask = new SpendRegisterTask(getApplicationContext() , spendDate, spendPrice, spendContents, spendMemo, spendCategory, spendMethodCategory);
+        authTask.execute((Void) null);
     }
 
     @Override
@@ -180,7 +218,8 @@ public class SpendDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class SpendCateRetrieveTask extends AsyncTask<Void, Void, Boolean> {
+    private class SpendCateRetrieveTask
+            extends AsyncTask<Void, Void, Boolean> {
         private final Context context;
         private final String userId;
         CateRetrieveService cateRetrieveService = new CateRetrieveService();
@@ -227,6 +266,67 @@ public class SpendDetailActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             authRetrieveTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+        }
+    }
+
+    private class SpendRegisterTask
+            extends AsyncTask<Void, Void, Boolean> {
+
+        private final Context context;
+        private final String spendDate;
+        private final String spendPrice;
+        private final String spendContents;
+        private final String spendMemo;
+        private final String spendCategory;
+        private final String spendMethodContents;
+        SpendRegisterService spendRegisterService = new SpendRegisterService();
+        private String registerErrMsg;
+
+        SpendRegisterTask(Context context, String spendDate, String spendPrice, String spendContents, String spendMemo, String spendCategory, String spendMethodContents) {
+            registerErrMsg = "지출내역 등록에 실패하셨습니다.";
+            this.context = context;
+            this.spendDate = spendDate;
+            this.spendPrice = spendPrice;
+            this.spendContents = spendContents;
+            this.spendMemo = spendMemo;
+            this.spendCategory = spendCategory;
+            this.spendMethodContents = spendMethodContents;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            ShowProgressHelper.showProgress(context, true, viewProgress, viewForm);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                return spendRegisterService.register(spendDate, spendPrice, spendContents, spendMemo, spendCategory, spendMethodContents, userId);
+            } catch (JSONException | IOException e) {
+                registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            authTask = null;
+            ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
+
+            if (success) {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(SpendDetailActivity.this, getString(R.string.help), "지출내역 등록에 성공하셨습니다.", AlertDialogWrapper.DialogButton.OK);
+            } else {
+                AlertDialogWrapper alertDialogWrapper = new AlertDialogWrapper();
+                alertDialogWrapper.showAlertDialog(SpendDetailActivity.this, getString(R.string.help), registerErrMsg, AlertDialogWrapper.DialogButton.OK);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            authTask = null;
             ShowProgressHelper.showProgress(context, false, viewProgress, viewForm);
         }
     }
