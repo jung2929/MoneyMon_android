@@ -1,11 +1,6 @@
-package com.example.jungwh.fragmenttest.business.data;
+package com.example.jungwh.fragmenttest.net.dto;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.example.jungwh.fragmenttest.business.logic.LoginService;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,15 +11,13 @@ import java.util.Map;
  */
 public class GetSMSData {
     private String receiveMsgInfo;
-    private Context context;
 
-    public GetSMSData(String receiveMsgInfo, Context context) {
+    public GetSMSData(String receiveMsgInfo) {
         this.receiveMsgInfo=receiveMsgInfo;
-        this.context = context;
         Log.i("rosa","receiveMsgInfo="+ receiveMsgInfo);
     }
 
-    public void tpChkCd(){
+    public  Map<String, Object> tpChkCd(){
 
         if(receiveMsgInfo.contains("[Web발신]")||receiveMsgInfo.contains("[web발신]")){
             //체크 카드일때
@@ -35,11 +28,11 @@ public class GetSMSData {
                 if(receiveMsgInfo.contains("국민")) tpCkCd="국민";
 
                 if(tpCkCd==""){
-                    // 분석 내용에 없을때 수행할 이벤트
+                    // 분석 내용에 없을때 수행할 이벤트...
 
                 }
                 // 은행 종류별로 문자 정보 얻기(체크카드)
-                getCkCdInfo(tpCkCd,receiveMsgInfo, context);
+                return getCkCdInfo(tpCkCd,receiveMsgInfo);
 
             }
             //신용 카드일때
@@ -54,16 +47,17 @@ public class GetSMSData {
                 }
 
                 // 은행 종류별로 문자 정보 얻기(신용카드)
-                getCrCdInfo(tpCrCd,receiveMsgInfo, context);
+                return getCrCdInfo(tpCrCd,receiveMsgInfo);
                 //확인 불가능 할때 설정
             }else{
                 // 분석 실패 할때 수행할 이벤트...
             }
         }
+        return null;
     }
 
     // 은행 종류별로 문자 정보 얻기(체크카드)
-    public static void getCkCdInfo(String tpCkCd,  String receiveMsgInfo, Context context) {
+    public static Map<String, Object> getCkCdInfo(String tpCkCd, String receiveMsgInfo) {
         String[] receiveMsg = receiveMsgInfo.split("\\s+");
         Map<String, Object> msgInfo = null;
         String price = "";
@@ -132,38 +126,34 @@ public class GetSMSData {
             default:
                 break;
         }
-        /** 여기에 무조건 로그인된 사용자 이름 추가하기 !!!!!!* */
-        LoginService loginService = new LoginService();
-        LoginData cachedLoginData = loginService.getCachedLoginData(context);
-        Log.i("rosa", cachedLoginData.getLoginId());
-        if (cachedLoginData == null)
-            return;
+        if(!msgInfo.isEmpty()) {
+            /** 여기에 무조건 로그인된 사용자 이름 추가하기 !!!!!!* */
+            msgInfo.put("useId", "");
 
-        String loginId = cachedLoginData.getLoginId();
-        msgInfo.put("useId",loginId);
+            msgInfo.put("tpCd", "체크"); // 카드 종류 : tpCd
 
-        msgInfo.put("tpCd","체크"); // 카드 종류 : tpCd
+            if (receiveMsgInfo.contains("취소")) {
+                msgInfo.put("refundYn", 'Y');
+                //우리체크카드 취소 일때 예외처리
+                if (tpCkCd == "우리") {
+                    msgInfo.put("cdNo", receiveMsg[3].substring(5, 9));
+                }
+            }
 
-        if(receiveMsgInfo.contains("취소")){
-            msgInfo.put("refundYn", 'Y');
-            //우리체크카드 취소 일때 예외처리
-            if(tpCkCd=="우리"){
-                msgInfo.put("cdNo",receiveMsg[3].substring(5,9));
+            Log.i("rosa", "---메세지 불러온 후 Map에 정보 저장(map 그대로 가지고 들어가서 db에 저장해주기----");
+
+            Iterator<String> iterator = msgInfo.keySet().iterator();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                Log.i("rosa", "key=" + key);
+                Log.i("rosa", " value=" + msgInfo.get(key));
             }
         }
-
-        Log.i("rosa", "---메세지 불러온 후 Map에 정보 저장(map 그대로 가지고 들어가서 db에 저장해주기----");
-
-        Iterator<String> iterator = msgInfo.keySet().iterator();
-        while(iterator.hasNext()){
-            String key = (String) iterator.next();
-            Log.i("rosa", "key=" + key);
-            Log.i("rosa", " value=" + msgInfo.get(key));
-        }
+        return msgInfo;
     }
 
     // 은행 종류별로 문자 정보 얻기(신용카드)
-    public static void getCrCdInfo(String tpCrCd, String receiveMsgInfo, Context context){
+    public static Map<String, Object> getCrCdInfo(String tpCrCd, String receiveMsgInfo){
         String[] receiveMsg = receiveMsgInfo.split("\\s+");
         Map<String, Object> msgInfo = null;
         String price ="";
@@ -198,20 +188,23 @@ public class GetSMSData {
         }
 
         /** 여기에 무조건 로그인된 사용자 이름 추가하기 !!!!!!* */
-        msgInfo.put("useId","");
+        if(!msgInfo.isEmpty()) {
+            msgInfo.put("useId", "");
 
-        msgInfo.put("tpCd", "신용"); // 카드 종류 : tpCd
+            msgInfo.put("tpCd", "신용"); // 카드 종류 : tpCd
 
-        if(receiveMsgInfo.contains("취소")){
-            msgInfo.put("refundYn", 'Y');
+            if (receiveMsgInfo.contains("취소")) {
+                msgInfo.put("refundYn", 'Y');
+            }
+            Log.i("rosa", "---메세지 불러온 후 Map에 정보 저장(map 그대로 가지고 들어가서 db에 저장해주기----");
+
+            Iterator<String> iterator = msgInfo.keySet().iterator();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                Log.i("rosa", "key=" + key);
+                Log.i("rosa", " value=" + msgInfo.get(key));
+            }
         }
-        Log.i("rosa", "---메세지 불러온 후 Map에 정보 저장(map 그대로 가지고 들어가서 db에 저장해주기----");
-
-        Iterator<String> iterator = msgInfo.keySet().iterator();
-        while(iterator.hasNext()){
-            String key = (String) iterator.next();
-            Log.i("rosa", "key=" + key);
-            Log.i("rosa", " value=" + msgInfo.get(key));
-        }
+        return msgInfo;
     }
 }

@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edittext_rounded"
-                android:drawableLeft="@drawable/iconmonstr_note"
+                android:drawableLeft="@drawable/iconmonstr_contents"
                 android:padding="10dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/Black"

@@ -3,7 +3,7 @@
     package="com.example.jungwh.fragmenttest">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <!--<uses-permission android:name="android.permission.RECEIVE_SMS"/>-->
 
     <application
         android:allowBackup="true"
@@ -22,12 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <receiver android:name=".business.logic.GetSMSService" android:enabled="true">
+        <!--<receiver android:name=".business.logic.GetSMSService" android:enabled="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
             </intent-filter>
-        </receiver>
+        </receiver>-->
         <activity
             android:name=".gui.main.LoginActivity"
             android:label="@string/app_name"
@@ -38,7 +38,7 @@
             android:name=".gui.main.RegisterActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnspecified">
+            android:windowSoftInputMode="adjustPan|stateUnspecified">
         </activity>
         <activity
             android:name=".gui.main.MainActivity"
@@ -50,13 +50,13 @@
             android:name=".gui.InputTab.IncomeDetailActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnspecified">
+            android:windowSoftInputMode="adjustPan|stateUnspecified">
         </activity>
         <activity
             android:name=".gui.InputTab.SpendDetailActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnspecified">
+            android:windowSoftInputMode="adjustPan|stateUnspecified">
         </activity>
         <activity
             android:name=".gui.main.IncomeCateEditActivity"
@@ -73,8 +73,8 @@
         <activity
             android:name=".gui.main.MonthlyBudgetActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateUnspecified">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateUnspecified">
         </activity>
     </application>
 
