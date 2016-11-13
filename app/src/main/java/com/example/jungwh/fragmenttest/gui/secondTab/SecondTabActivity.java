@@ -61,8 +61,13 @@ public class SecondTabActivity extends Fragment {
         etInputDataFrom = (EditText) secondTabView.findViewById(R.id.searchBarDateFrom);
         etInputDataTo = (EditText) secondTabView.findViewById(R.id.searchBarDateTo);
 
-        etInputDataFrom.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
-        etInputDataTo.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
+        Calendar today = Calendar.getInstance();
+        String year = String.valueOf(today.get(Calendar.YEAR));
+        String month = String.valueOf(today.get(Calendar.MONTH) + 1);
+        etInputDataFrom.setText(year + month + "01");
+        etInputDataTo.setText(year + month + String.valueOf(today.getActualMaximum(Calendar.DATE)));
+        //etInputDataFrom.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
+        //etInputDataTo.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(new Date()));
 
         etInputDataFrom.setOnClickListener(mOnClickListener);
         etInputDataTo.setOnClickListener(mOnClickListener);
@@ -138,7 +143,6 @@ public class SecondTabActivity extends Fragment {
         ExpandableListAdapter expandableListAdapter = new BaseExpandableAdapter(getActivity(),
                 mapResult);
         mListView.setAdapter(expandableListAdapter);
-
 
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         String formattedSummaryPriceValue = decimalFormat.format(sumPriceValue);

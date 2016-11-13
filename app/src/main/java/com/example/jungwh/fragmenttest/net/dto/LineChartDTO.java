@@ -7,18 +7,16 @@ import org.json.JSONObject;
 /**
  * Created by seo on 2016-11-09.
  */
-public class Graph2DTO {
 
+public class LineChartDTO {
     private JSONArray data;
     private String errMsg;
 
-
-    public Graph2DTO(JSONObject responseJson)
+    public LineChartDTO(JSONObject responseJson)
             throws JSONException {
         setErrMsg(responseJson.getString("errorMsg"));
         setData((JSONArray) responseJson.get("data"));
     }
-
 
     public JSONArray getData() {
         return data;
@@ -35,8 +33,6 @@ public class Graph2DTO {
     public void setErrMsg(String errMsg) {
         this.errMsg = errMsg;
     }
-
-
 }
 
 

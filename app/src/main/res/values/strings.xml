@@ -75,4 +75,5 @@
 
     <!-- 그래프 화면 -->
     <string name="Graph_price_hint">\ 10,000</string>
+    <string name="barChartTitle">전년 대비</string>
 </resources>

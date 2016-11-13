@@ -13,7 +13,7 @@
         android:layout_marginBottom="30dp">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart2"
+            android:id="@+id/main_line_chart"
             android:layout_width="300dp"
             android:layout_height="230dp"
             android:gravity="center"
@@ -28,13 +28,12 @@
         android:background="@color/White"
         android:padding="3dp">
 
-
-            <TextView
-                android:id="@+id/graph2_tv0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2016년 11월 설정한 예산에 비해 이번달 식비는 100,000원 남았습니다. 하루 평균 6,300원씩 지출하길 추천합니다! "
-                android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/graph_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016년 11월 설정한 예산에 비해 이번달 식비는 100,000원 남았습니다. 하루 평균 6,300원씩 지출하길 추천합니다! "
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 </LinearLayout>

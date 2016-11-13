@@ -128,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             }
-            default:
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -158,9 +156,9 @@ public class MainActivity extends AppCompatActivity {
                     ThirdTabActivity thirdTabActivity = new ThirdTabActivity();
                     thirdTabActivity.setArguments(bundle);
                     return thirdTabActivity;
+                default:
+                    return null;
             }
-
-            return null;
         }
 
         // 탭의 갯수를 지정하는 곳

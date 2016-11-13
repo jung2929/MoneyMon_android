@@ -5,25 +5,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by 김한빛 on 2016-11-09.
+ * Created by jungwh on 2016-11-12.
  */
 
-public class Graph1DTO {
+public class BarChartDTO {
     private JSONArray data;
     private String errMsg;
 
-    public Graph1DTO(JSONObject responseJson)
+    public BarChartDTO(JSONObject responseJson)
             throws JSONException {
         setErrMsg(responseJson.getString("errorMsg"));
-        setData((JSONArray ) responseJson.get("data"));
+        setData((JSONArray) responseJson.get("data"));
     }
-
 
     public JSONArray getData() {
         return data;
     }
 
-    public void  setData(JSONArray data) {
+    public void setData(JSONArray data) {
         this.data = data;
     }
 

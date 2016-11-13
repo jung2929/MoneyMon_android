@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/btn0"
+            android:id="@+id/barChartButton"
             android:background="#CCDAF4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="전년 대비"/>
+            android:text="@string/barChartTitle"/>
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/PieChartButton"
             android:background="#EFF4CC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
