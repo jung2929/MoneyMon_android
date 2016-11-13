@@ -1,5 +1,6 @@
 package com.example.jungwh.fragmenttest.net.dal;
 
+import com.example.jungwh.fragmenttest.net.DatabaseEntity;
 import com.example.jungwh.fragmenttest.net.NetworkService;
 import com.example.jungwh.fragmenttest.net.dto.LineChartDTO;
 
@@ -21,7 +22,7 @@ public class LineChartDAL {
     public LineChartDTO retrieve(String userId) throws IOException, JSONException {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
-                .host("10.0.2.2")
+                .host(DatabaseEntity.getInstance())
                 .port(9000)
                 .addPathSegment("line-chart-retrieve")
                 .addEncodedQueryParameter("requestUserId", userId)

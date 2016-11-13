@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,7 +54,6 @@ public class BarChartActivity extends Fragment{
 
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View AssetTabView = inflater.inflate(R.layout.fragment_bar_chart, container,false);
 
@@ -64,6 +64,8 @@ public class BarChartActivity extends Fragment{
 
         spMonths= (Spinner) AssetTabView.findViewById(R.id.spinner_months);
         spCategory= (Spinner) AssetTabView.findViewById(R.id.spinner_category);
+
+        cateRetrieve();
 
         tvGraphInfo = (TextView) AssetTabView.findViewById(R.id.graph_info);
         Animation animFadeIn = AnimationUtils.loadAnimation( this.getContext() ,R.anim.fade_in);
@@ -76,7 +78,6 @@ public class BarChartActivity extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tvTitleMonth.setText(parent.getItemAtPosition(position) + " "  );
-                barChartRetrieve();
             }
 
             @Override
@@ -88,7 +89,6 @@ public class BarChartActivity extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 tvTitleCategory.setText(parent.getItemAtPosition(position) + " 지출 패턴 분석"  );
-                barChartRetrieve();
             }
 
             @Override
@@ -96,7 +96,14 @@ public class BarChartActivity extends Fragment{
 
             }
         });
-        cateRetrieve();
+
+        AssetTabView.findViewById(R.id.button_retrieve).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                barChartRetrieve();
+            }
+        });
+
         return AssetTabView;
     }
 
@@ -124,7 +131,6 @@ public class BarChartActivity extends Fragment{
         ArrayList<String> labels = new ArrayList<>();
         labels.add(barChartData.getLastYearMonth());
         labels.add(barChartData.getCurrentYearMonth());
-
 
         BarDataSet dataSet = new BarDataSet(entries, "금액");
 

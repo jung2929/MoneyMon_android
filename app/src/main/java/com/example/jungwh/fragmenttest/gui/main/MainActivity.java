@@ -128,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             }
+            case R.id.budget: {
+                Intent intent = new Intent(getApplicationContext(), MonthlyBudgetActivity.class);
+                intent.putExtra("USER_ID", loginData.getLoginId());
+                startActivity(intent);
+                break;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -151,13 +151,25 @@
 
     <array name="colorNumberList">
         <item>@color/LightCoral</item>
+        <item>@color/Plum</item>
+        <item>@color/Gold</item>
+        <item>@color/LightPink</item>
+        <item>@color/LightSalmon</item>
+        <item>@color/LightSeaGreen</item>
+        <item>@color/LightSkyBlue</item>
+        <item>@color/LightSlateGray</item>
+        <item>@color/LightSteelBlue</item>
+        <item>@color/MediumTurquoise</item>
+
+        <item>@color/Peru</item>
+        <item>@color/PowderBlue</item>
+        <item>@color/PeachPuff</item>
         <item>@color/DeepPink</item>
         <item>@color/Brown</item>
         <item>@color/GreenYellow</item>
         <item>@color/DeepSkyBlue</item>
         <item>@color/Aqua</item>
         <item>@color/CornflowerBlue</item>
-        <item>@color/Gold</item>
         <item>@color/Green</item>
         <item>@color/Honeydew</item>
         <item>@color/HotPink</item>
@@ -174,12 +186,6 @@
         <item>@color/LightGoldenrodYellow</item>
         <item>@color/LightGreen</item>
         <item>@color/LightGrey</item>
-        <item>@color/LightPink</item>
-        <item>@color/LightSalmon</item>
-        <item>@color/LightSeaGreen</item>
-        <item>@color/LightSkyBlue</item>
-        <item>@color/LightSlateGray</item>
-        <item>@color/LightSteelBlue</item>
         <item>@color/LightYellow</item>
         <item>@color/Lime</item>
         <item>@color/LimeGreen</item>
@@ -193,8 +199,6 @@
         <item>@color/MediumSeaGreen</item>
         <item>@color/MediumSlateBlue</item>
         <item>@color/MediumSpringGreen</item>
-        <item>@color/MediumTurquoise</item>
-        <item>@color/MediumVioletRed</item>
         <item>@color/MidnightBlue</item>
         <item>@color/MintCream</item>
         <item>@color/MistyRose</item>
@@ -212,11 +216,6 @@
         <item>@color/PaleTurquoise</item>
         <item>@color/PaleVioletRed</item>
         <item>@color/PapayaWhip</item>
-        <item>@color/PeachPuff</item>
-        <item>@color/Peru</item>
-        <item>@color/Pink</item>
-        <item>@color/Plum</item>
-        <item>@color/PowderBlue</item>
         <item>@color/Purple</item>
         <item>@color/Red</item>
         <item>@color/RosyBrown</item>

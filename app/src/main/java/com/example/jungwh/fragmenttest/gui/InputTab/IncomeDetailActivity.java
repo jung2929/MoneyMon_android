@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.CateRetrieveData;
@@ -152,7 +153,6 @@ public class IncomeDetailActivity extends AppCompatActivity {
                     finish();
                     break;
             }
-
         }
     };
 
@@ -171,10 +171,22 @@ public class IncomeDetailActivity extends AppCompatActivity {
         }
 
         String incomeDate = etIncomeDate.getText().toString().replace("-","");
+        if (incomeDate == null || incomeDate.equals("")){
+            Toast.makeText(getApplicationContext(), "일자를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String incomePrice = etIncomePrice.getText().toString().replace(",","");
+        if (incomePrice == null || incomePrice.equals("")){
+            Toast.makeText(getApplicationContext(), "가격을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String incomeContents = etIncomeContents.getText().toString();
         String incomeMemo = etIncomeMemo.getText().toString();
         String incomeCategory = spCategoryContents.getSelectedItem().toString();
+        if (incomeCategory == null || incomeCategory.equals("")){
+            Toast.makeText(getApplicationContext(), "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         authTask = new IncomeRegisterTask(getApplicationContext() , incomeDate, incomePrice, incomeContents, incomeMemo, incomeCategory);
         authTask.execute((Void) null);

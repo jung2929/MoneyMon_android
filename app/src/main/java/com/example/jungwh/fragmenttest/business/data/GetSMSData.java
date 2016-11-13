@@ -1,6 +1,11 @@
 package com.example.jungwh.fragmenttest.business.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.example.jungwh.fragmenttest.business.logic.LoginService;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,9 +16,11 @@ import java.util.Map;
  */
 public class GetSMSData {
     private String receiveMsgInfo;
+    private Context context;
 
-    public GetSMSData(String receiveMsgInfo) {
+    public GetSMSData(String receiveMsgInfo, Context context) {
         this.receiveMsgInfo=receiveMsgInfo;
+        this.context = context;
         Log.i("rosa","receiveMsgInfo="+ receiveMsgInfo);
     }
 
@@ -32,7 +39,7 @@ public class GetSMSData {
 
                 }
                 // 은행 종류별로 문자 정보 얻기(체크카드)
-                getCkCdInfo(tpCkCd,receiveMsgInfo);
+                getCkCdInfo(tpCkCd,receiveMsgInfo, context);
 
             }
             //신용 카드일때
@@ -47,7 +54,7 @@ public class GetSMSData {
                 }
 
                 // 은행 종류별로 문자 정보 얻기(신용카드)
-                getCrCdInfo(tpCrCd,receiveMsgInfo);
+                getCrCdInfo(tpCrCd,receiveMsgInfo, context);
                 //확인 불가능 할때 설정
             }else{
                 // 분석 실패 할때 수행할 이벤트...
@@ -56,7 +63,7 @@ public class GetSMSData {
     }
 
     // 은행 종류별로 문자 정보 얻기(체크카드)
-    public static void getCkCdInfo(String tpCkCd,  String receiveMsgInfo) {
+    public static void getCkCdInfo(String tpCkCd,  String receiveMsgInfo, Context context) {
         String[] receiveMsg = receiveMsgInfo.split("\\s+");
         Map<String, Object> msgInfo = null;
         String price = "";
@@ -126,7 +133,14 @@ public class GetSMSData {
                 break;
         }
         /** 여기에 무조건 로그인된 사용자 이름 추가하기 !!!!!!* */
-        msgInfo.put("useId","");
+        LoginService loginService = new LoginService();
+        LoginData cachedLoginData = loginService.getCachedLoginData(context);
+        Log.i("rosa", cachedLoginData.getLoginId());
+        if (cachedLoginData == null)
+            return;
+
+        String loginId = cachedLoginData.getLoginId();
+        msgInfo.put("useId",loginId);
 
         msgInfo.put("tpCd","체크"); // 카드 종류 : tpCd
 
@@ -149,7 +163,7 @@ public class GetSMSData {
     }
 
     // 은행 종류별로 문자 정보 얻기(신용카드)
-    public static void getCrCdInfo(String tpCrCd, String receiveMsgInfo){
+    public static void getCrCdInfo(String tpCrCd, String receiveMsgInfo, Context context){
         String[] receiveMsg = receiveMsgInfo.split("\\s+");
         Map<String, Object> msgInfo = null;
         String price ="";

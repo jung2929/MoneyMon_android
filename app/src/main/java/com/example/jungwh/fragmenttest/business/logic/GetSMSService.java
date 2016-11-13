@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.gsm.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.gui.main.LoginActivity;
 import com.example.jungwh.fragmenttest.business.data.GetSMSData;
@@ -47,15 +48,13 @@ public class GetSMSService extends BroadcastReceiver {
                         receiveMsgInfo += " ";
                     }
                 }
-                getSMSData(receiveMsgInfo);
+                getSMSData(receiveMsgInfo, context);
             }
         }
     }
 
-    public void getSMSData(String receiveMsgInfo) {
-
-
-        GetSMSData getSMSData = new GetSMSData(receiveMsgInfo);
+    public void getSMSData(String receiveMsgInfo, Context context) {
+        GetSMSData getSMSData = new GetSMSData(receiveMsgInfo, context);
         getSMSData.tpChkCd();
 
     }

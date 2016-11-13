@@ -58,6 +58,10 @@
     <string name="retrieve">조회</string>
     <string name="retrieveString">조회날짜</string>
 
+    <string name="budget_date">예산 년/월 :</string>
+    <string name="budget_price">예산 금액 :</string>
+    <string name="budget_hint">예산을 입력해 주세요</string>
+
     <string-array name="spend_method_contents">
         <item >현금</item>
         <item >신한카드</item>

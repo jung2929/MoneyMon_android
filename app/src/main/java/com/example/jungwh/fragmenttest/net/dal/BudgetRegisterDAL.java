@@ -13,31 +13,26 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
- * Created by jungwh on 2016-10-29.
+ * Created by jungwh on 2016-11-13.
  */
 
-public class SpendRegisterDAL {
+public class BudgetRegisterDAL {
     private static NetworkService networkService;
     private static final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
 
-    public SpendRegisterDAL()  { networkService = new NetworkService(); }
+    public BudgetRegisterDAL()  { networkService = new NetworkService(); }
 
-    public Boolean register(String spendDate, String spendPrice, String spendContents, String spendMemo, String spendCategory, String spendMethodContents, String userId) throws IOException, JSONException {
+    public Boolean register(String budgetDate, String budgetPrice, String userId) throws IOException, JSONException {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host(DatabaseEntity.getInstance())
                 .port(9000)
-                .addPathSegment("spend-register")
+                .addPathSegment("budget-register")
                 .build();
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("INPUT_DATE", spendDate);
-        jsonObject.put("INPUT_DIVISION", "002");
-        jsonObject.put("INPUT_PC", Integer.parseInt(spendPrice));
-        jsonObject.put("INPUT_IEM", spendContents);
-        jsonObject.put("INPUT_CATEGORY", spendCategory);
-        jsonObject.put("INPUT_MEMO", spendMemo);
-        jsonObject.put("INPUT_METHOD_CONTENTS", spendMethodContents);
+        jsonObject.put("DATE_YYYYMM", budgetDate);
+        jsonObject.put("BUDGET", Integer.parseInt(budgetPrice));
         jsonObject.put("USER_ID", userId);
 
         RequestBody requestBody = RequestBody.create(mediaType, jsonObject.toString());

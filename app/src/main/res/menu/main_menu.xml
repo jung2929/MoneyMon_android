@@ -14,8 +14,8 @@
         android:title="수입 카테고리 편집"
         />
     <item
-        android:id="@+id/developers"
-        android:title="개발정보"
+        android:id="@+id/budget"
+        android:title="월별 예산 추가"
         />
     <item
         android:id="@+id/action_logout"

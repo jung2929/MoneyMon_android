@@ -4,51 +4,58 @@
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
     android:background="#CCDAF4"
-  >
+    >
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="right">
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/spinner_months"
-        android:entries="@array/months"/>
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/spinner_category"
-        android:entries="@array/category"/>
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/spinner_months"
+            android:entries="@array/months"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/spinner_category"/>
+        <Button
+            android:id="@+id/button_retrieve"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/retrieve"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/graph_title_month"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/graph_title_category"
-        android:text="카테고리 선택"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-       />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/graph_title_month"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/graph_title_category"
+            android:text="카테고리 선택"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,12 +63,12 @@
         android:layout_gravity="center"
         android:layout_marginBottom="10dp">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/main_bar_chart"
-        android:layout_width="300dp"
-        android:layout_height="230dp"
-        android:gravity="center"
-        android:layout_margin="10dp"/>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/main_bar_chart"
+            android:layout_width="300dp"
+            android:layout_height="230dp"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +83,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/graph_info"
-            android:text="2015년 11월 대비 식비 지출이 14,000원(5%) 증가했습니다. 말일이 다가오는 오늘! 퇴근하고 저녁밥은 집에서 어떠세요?"
             android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

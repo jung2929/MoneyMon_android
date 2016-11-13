@@ -25,12 +25,17 @@ import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jungwh on 2016-10-04.
  */
 
 public class RegisterActivity extends AppCompatActivity {
+    private static final Pattern VALID_PASSWOLD_REGEX_ALPHA_NUM = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{5,16}$"); // 5자리 ~ 16자리까지 가능
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
     private EditText etUserId, etUserPassword, etUserNm, etMoblphon, etEmail;
     private View viewProgress, viewRegisterForm;
     private RegisterTask authTask = null;
@@ -94,6 +99,10 @@ public class RegisterActivity extends AppCompatActivity {
             etUserPassword.setError("비밀번호는 4자리 보다 더 길어야 합니다");
             focusView = etUserPassword;
             cancel = true;
+        }else if (!validatePassword(userPassword)) {
+            etUserPassword.setError("비밀번호는 한글을 포함 할 수 없습니다");
+            focusView = etUserPassword;
+            cancel = true;
         }else if (TextUtils.isEmpty(userNm)) {
             etUserNm.setError("닉네임을 입력해 주십시오");
             focusView = etUserNm;
@@ -106,6 +115,10 @@ public class RegisterActivity extends AppCompatActivity {
             etEmail.setError("이메일을 입력해 주십시오");
             focusView = etEmail;
             cancel = true;
+        }else if (!validateEmail(email)) {
+            etEmail.setError("이메일 형식이 잘못되었습니다");
+            focusView = etEmail;
+            cancel = true;
         }
 
         if (cancel) {
@@ -114,6 +127,16 @@ public class RegisterActivity extends AppCompatActivity {
             authTask = new RegisterTask(getApplicationContext() , userId, userPassword, userNm, moblphon, email);
             authTask.execute((Void) null);
         }
+    }
+
+    private boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    public static boolean validatePassword(String pwStr) {
+        Matcher matcher = VALID_PASSWOLD_REGEX_ALPHA_NUM.matcher(pwStr);
+        return matcher.matches();
     }
 
     private boolean isPasswordValid(String password) {

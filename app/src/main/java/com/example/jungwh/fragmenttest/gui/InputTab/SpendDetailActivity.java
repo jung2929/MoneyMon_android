@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
 import com.example.jungwh.fragmenttest.business.data.CateRetrieveData;
@@ -186,11 +187,27 @@ public class SpendDetailActivity extends AppCompatActivity {
         }
 
         String spendDate = etSpendDate.getText().toString().replace("-","");
+        if (spendDate == null || spendDate.equals("")){
+            Toast.makeText(getApplicationContext(), "일자를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String spendPrice = etSpendPrice.getText().toString().replace(",","");
+        if (spendPrice == null || spendPrice.equals("")){
+            Toast.makeText(getApplicationContext(), "가격을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String spendContents = etSpendContents.getText().toString();
         String spendMemo = etSpendMemo.getText().toString();
         String spendCategory = spCategoryContents.getSelectedItem().toString();
+        if (spendCategory == null || spendCategory.equals("")){
+            Toast.makeText(getApplicationContext(), "카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String spendMethodCategory = spMethodContents.getSelectedItem().toString();
+        if (spendMethodCategory == null || spendMethodCategory.equals("")){
+            Toast.makeText(getApplicationContext(), "지출수단을 선택해주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         authTask = new SpendRegisterTask(getApplicationContext() , spendDate, spendPrice, spendContents, spendMemo, spendCategory, spendMethodCategory);
         authTask.execute((Void) null);
