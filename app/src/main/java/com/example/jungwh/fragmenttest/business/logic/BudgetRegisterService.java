@@ -10,9 +10,9 @@ import java.io.IOException;
  * Created by jungwh on 2016-11-14.
  */
 
-public class change {
+public class BudgetRegisterService {
     private BudgetRegisterDAL DAL;
-    public change() { DAL = new BudgetRegisterDAL(); }
+    public BudgetRegisterService() { DAL = new BudgetRegisterDAL(); }
 
     public Boolean register(String budgetDate, String budgetPrice, String userId)
             throws IOException, JSONException {

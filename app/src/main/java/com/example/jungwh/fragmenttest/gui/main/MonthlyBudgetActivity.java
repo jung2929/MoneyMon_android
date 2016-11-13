@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
-import com.example.jungwh.fragmenttest.business.logic.change;
+import com.example.jungwh.fragmenttest.business.logic.BudgetRegisterService;
 import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
 import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
@@ -170,8 +170,7 @@ public class MonthlyBudgetActivity extends AppCompatActivity {
         private final Context context;
         private final String budgetDate;
         private final String budgetPrice;
-        //private BudgetRegisterService budgetRegisterService = new BudgetRegisterService();
-        private change budgetRegisterService = new change();
+        private BudgetRegisterService budgetRegisterService = new BudgetRegisterService();
         private String registerErrMsg = "예산 등록에 실패하셨습니다.";
 
         BudgetRegisterTask(Context context, String budgetDate, String budgetPrice) {
