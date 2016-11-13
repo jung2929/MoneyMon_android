@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jungwh.fragmenttest.R;
-import com.example.jungwh.fragmenttest.business.logic.BudgetRegisterService;
+import com.example.jungwh.fragmenttest.business.logic.change;
 import com.example.jungwh.fragmenttest.util.AlertDialogWrapper;
 import com.example.jungwh.fragmenttest.util.ExceptionHelper;
 import com.example.jungwh.fragmenttest.util.ShowProgressHelper;
@@ -34,7 +34,7 @@ import java.util.Locale;
  */
 
 public class MonthlyBudgetActivity extends AppCompatActivity {
-    private BudgerRegisterTask authTask = null;
+    private BudgetRegisterTask authTask = null;
     private View viewProgress, viewForm;
     // 세자리로 끊어서 쉼표 보여주고, 소숫점 셋째짜리까지 보여준다.
     private DecimalFormat mDecimalFormat = new DecimalFormat("###,###.####");
@@ -160,20 +160,21 @@ public class MonthlyBudgetActivity extends AppCompatActivity {
             return;
         }
 
-        authTask = new BudgerRegisterTask(getApplicationContext() , budgetDate.substring(0,6), budgetPrice);
+        authTask = new BudgetRegisterTask(getApplicationContext() , budgetDate.substring(0,6), budgetPrice);
         authTask.execute((Void) null);
     }
 
-    private class BudgerRegisterTask
+    private class BudgetRegisterTask
             extends AsyncTask<Void, Void, Boolean> {
 
         private final Context context;
         private final String budgetDate;
         private final String budgetPrice;
-        private BudgetRegisterService budgetRegisterService = new BudgetRegisterService();
+        //private BudgetRegisterService budgetRegisterService = new BudgetRegisterService();
+        private change budgetRegisterService = new change();
         private String registerErrMsg = "예산 등록에 실패하셨습니다.";
 
-        BudgerRegisterTask(Context context, String budgetDate, String budgetPrice) {
+        BudgetRegisterTask(Context context, String budgetDate, String budgetPrice) {
             this.context = context;
             this.budgetDate = budgetDate;
             this.budgetPrice = budgetPrice;
