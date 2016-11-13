@@ -170,7 +170,7 @@ public class MonthlyBudgetActivity extends AppCompatActivity {
         private final Context context;
         private final String budgetDate;
         private final String budgetPrice;
-        BudgetRegisterService BudgetRegisterService = new BudgetRegisterService();
+        private BudgetRegisterService budgetRegisterService = new BudgetRegisterService();
         private String registerErrMsg = "예산 등록에 실패하셨습니다.";
 
         BudgerRegisterTask(Context context, String budgetDate, String budgetPrice) {
@@ -188,7 +188,7 @@ public class MonthlyBudgetActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                return BudgetRegisterService.register(budgetDate, budgetPrice, userId);
+                return budgetRegisterService.register(budgetDate, budgetPrice, userId);
             } catch (JSONException | IOException e) {
                 registerErrMsg = ExceptionHelper.getApplicationExceptionMessage(e);
                 return false;
